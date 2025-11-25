@@ -1,0 +1,3 @@
+{"line":1,"input":"(forall x. P(x))","tokens":"( forall x . P ( x ) ) ","ast":"forall x. P(x)","expanded":"forall x. P(x)","polarity":"forall x : positive"}
+{"line":2,"input":"((forall y. Q(y)) & (exists z. R(z)))","tokens":"( ( forall y . Q ( y ) ) & ( exists z . R ( z ) ) ) ","ast":"(forall y. Q(y) & exists z. R(z))","expanded":"(forall y. Q(y) & exists z. R(z))","polarity":"forall y : positive;exists z : positive"}
+{"line":3,"input":"P(x) <-> Q(x)","tokens":"P ( x ) <-> Q ( x ) ","ast":"(P(x) <-> Q(x))","expanded":"((P(x) -> Q(x)) & (Q(x) -> P(x)))","polarity":""}

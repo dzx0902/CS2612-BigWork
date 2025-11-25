@@ -1,0 +1,12 @@
+F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/CMakeFiles/fol.dir
+F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/CMakeFiles/test_ast.dir
+F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/CMakeFiles/test_parser.dir
+F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/CMakeFiles/test_transform.dir
+F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/CMakeFiles/test_polarity.dir
+F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/CMakeFiles/Experimental.dir
+F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/CMakeFiles/Nightly.dir
+F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/CMakeFiles/Continuous.dir
+F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/CMakeFiles/NightlyMemoryCheck.dir
+F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/CMakeFiles/RUN_TESTS.dir
+F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/CMakeFiles/ALL_BUILD.dir
+F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/CMakeFiles/ZERO_CHECK.dir

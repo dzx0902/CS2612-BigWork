@@ -1,0 +1,76 @@
+
+P(x)
+Q(f(x))
+R(1)
+S(a,b,c)
+
+
+P(f(x))
+P(f(g(h(x)))))
+Q(f(x), g(h(1,y)))
+H(f(g(h(k(a,b,c)))), t)
+
+
+¬P(x)
+¬¬P(x)
+¬(P(x) ∧ Q(x))
+(P(x) ∧ Q(y)) ∨ R(z)
+(¬P(x) ∨ Q(y)) ∧ (R(z) → S(t))
+
+
+P(x) → Q(x)
+P(x) -> Q(x)
+P(x) ↔ Q(y)
+P(x) <-> Q(y)
+(P(x) -> Q(y)) ↔ (R(z) -> S(z))
+(¬P(x)) ↔ (Q(y) ∧ R(y))
+
+
+∀x. P(x)
+∃y. Q(y)
+
+(∀x. P(x)) -> (∃y. Q(y))
+¬∀x. P(x)
+∀x. (P(x) ∧ ∃y. Q(y))
+(∀x. P(x)) ↔ (∃y. Q(y))
+
+(∀x. P(x)) -> ((∀y. Q(y)) ∧ (∃z. R(z)))
+((¬∀x. P(x)) -> (∃y. Q(y))) ∧ ∀z. R(z)
+
+∀x. ∃y. ∀z. (P(x,y,z) -> (Q(x) ∧ ¬R(z)))
+∀x. (¬P(x) ∨ ∃y. (Q(y) → ∀z. R(z)))
+
+
+∀x. (P(x) -> ∃y. (Q(x,y) ∧ R(f(x,y))))
+((∀x. (P(x) -> ∃y. Q(y)))) ↔ (¬∃z. (R(z) ∧ S(z)))
+∀x. (¬(P(x) ∧ Q(x)) ∨ (∃y. (R(y) -> S(f(y)))))
+
+
+∀x.P(x)
+∀ x . P ( x )
+(∀x. P(x)) -> (∀y. Q(y))
+(∀ x.  P ( x ))  -> ((∃ y.  Q ( y ))  ∧   R ( x ))
+
+P(x) -> Q(x)
+P(x)->Q(x)
+P(x)<->Q(x)
+P(x) <->  Q(y)
+( P ( x )  -> Q ( y ) )
+
+
+P(x,
+P(,x)
+(∀x. P(x)
+∀x P(x
+∀x. (P(x)
+P((x))
+P(x))(
+∀.x P(x)
+-> P(x)
+<P(x)
+P())       
+(),        
+f(,x)    
+P(x y)     
+∀.x. P(x)   
+∀x P(x)    
