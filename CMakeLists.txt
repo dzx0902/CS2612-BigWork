@@ -13,8 +13,25 @@ add_executable(fol
   src/polarity.c
   src/print.c
   src/sb.c
+  src/bison_adapter.c
 )
 target_include_directories(fol PRIVATE . src)
+
+# Optional Bison integration
+find_program(BISON_EXECUTABLE NAMES win_bison bison)
+if (BISON_EXECUTABLE)
+  add_custom_command(
+    OUTPUT ${CMAKE_BINARY_DIR}/parser.c ${CMAKE_BINARY_DIR}/parser.h
+    COMMAND ${BISON_EXECUTABLE} -d -o ${CMAKE_BINARY_DIR}/parser.c ${CMAKE_SOURCE_DIR}/src/parser.y
+    DEPENDS ${CMAKE_SOURCE_DIR}/src/parser.y
+    COMMENT "Generating Bison parser"
+  )
+  add_custom_target(bison_gen DEPENDS ${CMAKE_BINARY_DIR}/parser.c ${CMAKE_BINARY_DIR}/parser.h)
+  add_dependencies(fol bison_gen)
+  target_sources(fol PRIVATE ${CMAKE_BINARY_DIR}/parser.c)
+  target_include_directories(fol PRIVATE ${CMAKE_BINARY_DIR})
+  target_compile_definitions(fol PRIVATE HAVE_BISON_PARSER=1)
+endif()
 
 add_executable(test_ast
   src/test_ast.c

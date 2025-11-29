@@ -6,7 +6,7 @@ S(a,b,c)
 
 
 P(f(x))
-P(f(g(h(x)))))
+P(f(g(h(x))))
 Q(f(x), g(h(1,y)))
 H(f(g(h(k(a,b,c)))), t)
 

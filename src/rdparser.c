@@ -65,7 +65,12 @@ static UPredicate* parse_predicate(Parser* ps){
   next(ps);
   if (!match(ps,TOK_LPAREN)) { free(name); fail(ps); return NULL; }
   int n=0; Term** args = parse_term_list(ps,&n);
-  if (!match(ps,TOK_RPAREN)) { free(name); fail(ps); }
+  if (!match(ps,TOK_RPAREN)) {
+    free(name);
+    if (args){ for(int i=0;i<n;i++) free_term(args[i]); free(args); }
+    fail(ps);
+    return NULL;
+  }
   UPredicate* p = new_predicate(name?name:"", n, args);
   free(name);
   return p;

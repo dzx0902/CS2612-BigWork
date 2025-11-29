@@ -158,3 +158,97 @@ static void fmt_prop(sb_t* sb, const Prop* p){
 char* format_term(const Term* t){ sb_t sb; sb_init(&sb); fmt_term(&sb, t); return sb_take(&sb); }
 char* format_pred(const UPredicate* p){ sb_t sb; sb_init(&sb); fmt_pred(&sb, p); return sb_take(&sb); }
 char* format_prop(const Prop* p){ sb_t sb; sb_init(&sb); fmt_prop(&sb, p); return sb_take(&sb); }
+
+static void indent(int d){ for(int i=0;i<d;i++) printf("  "); }
+
+static void print_prop_tree_rec(const Prop* p, int d){
+  if (!p){ indent(d); printf("?\n"); return; }
+  switch(p->type){
+    case Prop_Atom: {
+      indent(d);
+      printf("- ");
+      char* s = format_pred(p->prop.Atomic_prop);
+      printf("ATOM %s\n", s?s:"");
+      if (s) free(s);
+      break;
+    }
+    case Prop_Unop: {
+      indent(d);
+      printf("- UNOP %s\n", p->prop.Unary_prop.op==Prop_NOT?"NOT":"?");
+      print_prop_tree_rec(p->prop.Unary_prop.prop1, d+1);
+      break;
+    }
+    case Prop_Binop: {
+      indent(d);
+      const char* op = "?";
+      switch(p->prop.Binary_prop.op){
+        case Prop_AND: op = "AND"; break;
+        case Prop_OR: op = "OR"; break;
+        case Prop_IMPLY: op = "IMPLY"; break;
+        case Prop_IFF: op = "IFF"; break;
+        default: break;
+      }
+      printf("- BINOP %s\n", op);
+      print_prop_tree_rec(p->prop.Binary_prop.prop1, d+1);
+      print_prop_tree_rec(p->prop.Binary_prop.prop2, d+1);
+      break;
+    }
+    case Prop_Quant: {
+      indent(d);
+      const char* q = p->prop.Quant_prop.op==Prop_FORALL?"FORALL":(p->prop.Quant_prop.op==Prop_EXISTS?"EXISTS":"?");
+      printf("- QUANT %s %s\n", q, p->prop.Quant_prop.Variable?p->prop.Quant_prop.Variable:"");
+      print_prop_tree_rec(p->prop.Quant_prop.prop1, d+1);
+      break;
+    }
+    default:
+      indent(d); printf("- ?\n");
+      break;
+  }
+}
+
+void print_prop_tree(const Prop* p){ print_prop_tree_rec(p, 0); }
+
+static void fmt_indent(sb_t* sb, int d){ for(int i=0;i<d;i++) sb_append(sb, "  "); }
+
+static void fmt_tree_rec(sb_t* sb, const Prop* p, int d){
+  if (!p){ fmt_indent(sb,d); sb_append(sb, "?\n"); return; }
+  switch(p->type){
+    case Prop_Atom: {
+      fmt_indent(sb,d);
+      sb_append(sb, "- ");
+      char* s = format_pred(p->prop.Atomic_prop);
+      sb_append(sb, "ATOM "); sb_append(sb, s?s:""); sb_append(sb, "\n");
+      if (s) free(s);
+      break;
+    }
+    case Prop_Unop: {
+      fmt_indent(sb,d);
+      sb_append(sb, "- UNOP ");
+      if (p->prop.Unary_prop.op==Prop_NOT) sb_append(sb, "NOT"); else sb_append(sb, "?");
+      sb_append(sb, "\n");
+      fmt_tree_rec(sb, p->prop.Unary_prop.prop1, d+1);
+      break;
+    }
+    case Prop_Binop: {
+      fmt_indent(sb,d);
+      const char* op = "?";
+      switch(p->prop.Binary_prop.op){ case Prop_AND: op="AND"; break; case Prop_OR: op="OR"; break; case Prop_IMPLY: op="IMPLY"; break; case Prop_IFF: op="IFF"; break; default: break; }
+      sb_append(sb, "- BINOP "); sb_append(sb, op); sb_append(sb, "\n");
+      fmt_tree_rec(sb, p->prop.Binary_prop.prop1, d+1);
+      fmt_tree_rec(sb, p->prop.Binary_prop.prop2, d+1);
+      break;
+    }
+    case Prop_Quant: {
+      fmt_indent(sb,d);
+      const char* q = p->prop.Quant_prop.op==Prop_FORALL?"FORALL":(p->prop.Quant_prop.op==Prop_EXISTS?"EXISTS":"?");
+      sb_append(sb, "- QUANT "); sb_append(sb, q); sb_append(sb, " "); sb_append(sb, p->prop.Quant_prop.Variable?p->prop.Quant_prop.Variable:""); sb_append(sb, "\n");
+      fmt_tree_rec(sb, p->prop.Quant_prop.prop1, d+1);
+      break;
+    }
+    default:
+      fmt_indent(sb,d); sb_append(sb, "- ?\n");
+      break;
+  }
+}
+
+char* format_prop_tree(const Prop* p){ sb_t sb; sb_init(&sb); fmt_tree_rec(&sb, p, 0); return sb_take(&sb); }

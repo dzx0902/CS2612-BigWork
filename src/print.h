@@ -10,4 +10,7 @@ char* format_term(const Term* t);
 char* format_pred(const UPredicate* p);
 char* format_prop(const Prop* p);
 
+void print_prop_tree(const Prop* p);
+char* format_prop_tree(const Prop* p);
+
 #endif

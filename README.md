@@ -1,10 +1,11 @@
-# 一阶逻辑表达式解析与量词极性分析 — 使用指南
+# 一阶逻辑表达式解析与量词极性分析 — 使用指南（含可选 Bison 语法层）
 
 ## 功能概述
 - 读取一阶逻辑公式（逐行处理）
 - 输出各阶段结果：词法 token、解析得到的 AST、IFF 展开后的 AST、量词极性判断
 - 支持 ASCII/Unicode 两套符号（Windows 终端建议使用 ASCII；Unicode 需 UTF-8 输出）
 - 支持将每行的完整处理结果导出为 JSONL（便于撰写实验报告）
+- 可选启用 Bison 语法层（`--bison`）：在保留手写词法的前提下使用 Bison 解析；若不可用或解析失败自动回退到递归下降解析器
 
 ## 目录结构
 - `syntax.h`：AST 结构、枚举与接口声明
@@ -16,6 +17,8 @@
 - `src/print.h`、`src/print.c`：AST 可读化输出与格式化字符串
 - `src/sb.h`、`src/sb.c`：简单字符串 builder（用于 JSON 输出）
 - `src/main.c`：命令行程序，串起“词法→语法→IFF→极性”各阶段
+- `src/parser.y`：可选 Bison 语法文件（使用 BP_* 记号前缀，避免与词法枚举冲突）
+- `src/bison_adapter.h`、`src/bison_adapter.c`：Bison 适配器（用手写 `Lexer` 驱动 Bison）
 - `CMakeLists.txt`：构建脚本（Windows 使用 Visual Studio 生成器）
 - 测试程序：`src/test_ast.c`、`src/test_parser.c`、`src/test_transform.c`
 
@@ -26,6 +29,10 @@
   - `cmake -S . -B build`
 - 编译 Release：
   - `cmake --build build --config Release`
+
+可选启用 Bison（自动检测）：
+- 若系统存在 `bison` 或 `win_bison`，构建时会自动生成并链接 `parser.c/parser.h`，主程序支持 `--bison` 开关。
+- 若未安装 Bison，构建与运行不受影响，始终使用递归下降解析器。
 
 启用并运行内置测试（可选）：
 - 启用测试：
@@ -54,6 +61,7 @@
 - `--print-expanded`：打印 IFF 展开后的 AST
 - `--json`：以 JSON 行输出每行的完整处理结果
 - `--out <file>`：与 `--json` 配合使用，追加写入到指定文件
+- `--bison`：优先使用 Bison 解析；若 Bison 不可用或解析失败会自动回退为递归下降解析
 
 逐行处理输出格式：每行以 `== Line N ==` 为分隔，随后输出开启的各阶段结果与极性分析。
 
@@ -66,6 +74,17 @@ P(x) <-> Q(x)
 '@
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 $s | ./build/Release/fol.exe --tokens --print-ast --print-expanded
+```
+
+Bison 路径示例（可选）：
+```
+$s = @'
+(forall x. P(x))
+((forall y. Q(y)) & (exists z. R(z)))
+P(x) <-> Q(x)
+'@
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+$s | ./build/Release/fol.exe --bison --tokens --print-ast --print-expanded
 ```
 
 示例输出（节选）：
@@ -107,6 +126,12 @@ $s | ./build/Release/fol.exe --tokens --print-ast --print-expanded
 - 若需显示 Unicode 运算符（`∀`、`∃`、`¬`、`∧`、`∨`、`→`、`↔`），建议设置控制台输出为 UTF-8：
   - `[Console]::OutputEncoding = [System.Text.Encoding]::UTF8`
 - 为避免编码警告，源码已尽量使用 ASCII；功能上同时支持 ASCII 与 Unicode。
+
+## Bison 混合方案说明
+- 启用条件：系统检测到 `bison` 或 `win_bison`，构建时自动生成并链接 `parser.c/parser.h`。
+- 记号前缀：Bison 语法文件使用 `BP_*` 作为记号前缀，避免与手写词法的枚举值冲突。
+- 适配器：`bison_adapter.c` 使用手写 `Lexer` 提供记号给 Bison；`--bison` 开关启用此路径。
+- 回退机制：若 Bison 不可用或 `yyparse` 返回错误，主程序自动回退为递归下降解析。
 
 ## 注意与限制
 - 解析错误会提示 `PARSE_ERROR` 并跳过该行；建议使用 ASCII 形式确保跨平台稳定性。

@@ -11,7 +11,10 @@ static bool starts_with_bytes(Lexer* lx, const unsigned char* pat, int n) {
 static void skip_ws(Lexer* lx) {
   while (lx->pos < lx->length) {
     unsigned char c = (unsigned char)lx->input[lx->pos];
-    if (c==' '||c=='\t'||c=='\r'||c=='\n') lx->pos++; else break;
+    if (c==' '||c=='\t'||c=='\r'||c=='\n') { lx->pos++; continue; }
+    if (c==0xC2 && lx->pos+1<lx->length && (unsigned char)lx->input[lx->pos+1]==0xA0) { lx->pos+=2; continue; }
+    if (c==0xE3 && lx->pos+2<lx->length && (unsigned char)lx->input[lx->pos+1]==0x80 && (unsigned char)lx->input[lx->pos+2]==0x80) { lx->pos+=3; continue; }
+    break;
   }
 }
 
@@ -61,6 +64,7 @@ Token lexer_next(Lexer* lx) {
   if (c==')') { lx->pos++; return make(TOK_RPAREN, ")", 1); }
   if (c==',') { lx->pos++; return make(TOK_COMMA, ",", 1); }
   if (c=='.') { lx->pos++; return make(TOK_DOT, ".", 1); }
+  if (c==0xAC) { lx->pos++; return make(TOK_NOT, "¬", 1); }
   if (c=='!') { lx->pos++; return make(TOK_NOT, "!", 1); }
   if (c=='&') { lx->pos++; return make(TOK_AND, "&", 1); }
   if (c=='|') { lx->pos++; return make(TOK_OR, "|", 1); }
