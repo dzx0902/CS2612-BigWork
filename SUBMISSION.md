@@ -44,7 +44,7 @@ cmake --build build --config Release
 ```json
 {"line":61,"input":"P(x,","tokens":"P ( x , ","ast":"","expanded":"","polarity":"","valid":false,"error":"syntax error"}
 ```
-`report_all.txt` 则展示了 `--out-combined` 生成的完整可视化文本（含 AST/树形输出）以及对应 JSON 片段，便于直接引用到文档。
+`report_all.txt` 则展示了 `--out-combined` 生成的完整可视化文本（含 AST/树形输出）以及对应 JSON 片段，便于直接引用到文档。基于可读性考虑，我们在撰写报告时以 TXT 形式为主，JSON 输出主要用于兼容自动评测脚本。
 
 ---
 
