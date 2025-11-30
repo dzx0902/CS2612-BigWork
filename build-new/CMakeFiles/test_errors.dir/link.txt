@@ -1,0 +1,1 @@
+/usr/bin/cc CMakeFiles/test_errors.dir/src/test_errors.c.o CMakeFiles/test_errors.dir/src/lexer.c.o CMakeFiles/test_errors.dir/src/ast.c.o CMakeFiles/test_errors.dir/src/rdparser.c.o -o test_errors 

@@ -5,6 +5,7 @@
 static void next(Parser* ps){ token_free(&ps->cur); ps->cur = lexer_next(&ps->lx); }
 static int match(Parser* ps, TokenType tp){ if (ps->cur.type==tp){ next(ps); return 1; } return 0; }
 static void fail(Parser* ps){ ps->error=1; }
+static void free_term_array(Term** arr, int count){ if (!arr) return; for(int i=0;i<count;i++) free_term(arr[i]); free(arr); }
 
 static Term* parse_term(Parser* ps);
 static Term** parse_term_list(Parser* ps, int* n);
@@ -15,6 +16,7 @@ static Prop* parse_unary(Parser* ps);
 static Prop* parse_and(Parser* ps);
 static Prop* parse_or(Parser* ps);
 static Prop* parse_imply(Parser* ps);
+static Prop* parse_iff(Parser* ps);
 
 void parser_init(Parser* ps, const char* input){ lexer_init(&ps->lx, input); ps->cur = lexer_next(&ps->lx); ps->error=0; }
 
@@ -25,8 +27,10 @@ static Term* parse_term(Parser* ps){
     if (ps->cur.type==TOK_LPAREN){
       next(ps);
       int n=0; Term** args = parse_term_list(ps,&n);
-      if (!match(ps,TOK_RPAREN)){ fail(ps); }
+      if (ps->error){ free(name); free_term_array(args, n); return NULL; }
+      if (!match(ps,TOK_RPAREN)){ fail(ps); free(name); free_term_array(args, n); return NULL; }
       UFunction* f = new_function(name?name:"", n, args);
+      if (args) free(args);
       free(name);
       return new_term_function(f);
     } else {
@@ -52,7 +56,7 @@ static Term** parse_term_list(Parser* ps, int* n){
   while (ps->cur.type==TOK_COMMA){
     next(ps);
     t = parse_term(ps);
-    if (!t){ fail(ps); break; }
+    if (!t){ fail(ps); free_term_array(arr, *n); return NULL; }
     if (*n>=cap){ cap*=2; arr=(Term**)realloc(arr,sizeof(Term*)*cap); }
     arr[(*n)++]=t;
   }
@@ -65,13 +69,15 @@ static UPredicate* parse_predicate(Parser* ps){
   next(ps);
   if (!match(ps,TOK_LPAREN)) { free(name); fail(ps); return NULL; }
   int n=0; Term** args = parse_term_list(ps,&n);
+  if (ps->error) { free(name); free_term_array(args, n); return NULL; }
   if (!match(ps,TOK_RPAREN)) {
     free(name);
-    if (args){ for(int i=0;i<n;i++) free_term(args[i]); free(args); }
+    free_term_array(args, n);
     fail(ps);
     return NULL;
   }
   UPredicate* p = new_predicate(name?name:"", n, args);
+  if (args) free(args);
   free(name);
   return p;
 }
@@ -79,7 +85,7 @@ static UPredicate* parse_predicate(Parser* ps){
 static Prop* parse_atom_or_paren(Parser* ps){
   if (ps->cur.type==TOK_LPAREN){
     next(ps);
-    Prop* f = parse_imply(ps);
+    Prop* f = parse_iff(ps);
     if (!match(ps,TOK_RPAREN)) { fail(ps); }
     return f;
   }
@@ -96,7 +102,7 @@ static Prop* parse_quantified(Parser* ps){
     char* var = ps->cur.lexeme ? strdup(ps->cur.lexeme) : NULL;
     next(ps);
     if (!match(ps,TOK_DOT)) { free(var); fail(ps); return NULL; }
-    Prop* body = parse_imply(ps);
+    Prop* body = parse_iff(ps);
     Prop* res = new_prop_quant(q, var?var:"", body);
     free(var);
     return res;
@@ -123,16 +129,18 @@ static Prop* parse_or(Parser* ps){
 
 static Prop* parse_imply(Parser* ps){
   Prop* left = parse_or(ps);
-  while (ps->cur.type==TOK_IMPLY || ps->cur.type==TOK_IFF){
-    TokenType tp = ps->cur.type; next(ps); Prop* right = parse_or(ps);
-    if (tp==TOK_IMPLY) left = new_prop_binop(Prop_IMPLY, left, right);
-    else left = new_prop_binop(Prop_IFF, left, right);
-  }
+  while (ps->cur.type==TOK_IMPLY){ next(ps); Prop* right = parse_or(ps); left = new_prop_binop(Prop_IMPLY, left, right); }
+  return left;
+}
+
+static Prop* parse_iff(Parser* ps){
+  Prop* left = parse_imply(ps);
+  while (ps->cur.type==TOK_IFF){ next(ps); Prop* right = parse_imply(ps); left = new_prop_binop(Prop_IFF, left, right); }
   return left;
 }
 
 Prop* parse_formula(Parser* ps){
-  Prop* p = parse_imply(ps);
+  Prop* p = parse_iff(ps);
   if (ps->cur.type!=TOK_EOF) fail(ps);
   if (ps->error) { free_prop(p); return NULL; }
   return p;

@@ -1,0 +1,90 @@
+Start testing: Nov 29 19:15 CST
+----------------------------------------------------------
+1/5 Testing: test_ast
+1/5 Test: test_ast
+Command: "/data2/jflin/CS2612-BigWork/build-new/test_ast"
+Directory: /data2/jflin/CS2612-BigWork/build-new
+"test_ast" start time: Nov 29 19:15 CST
+Output:
+----------------------------------------------------------
+AST_OK
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"test_ast" end time: Nov 29 19:15 CST
+"test_ast" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/5 Testing: test_parser
+2/5 Test: test_parser
+Command: "/data2/jflin/CS2612-BigWork/build-new/test_parser"
+Directory: /data2/jflin/CS2612-BigWork/build-new
+"test_parser" start time: Nov 29 19:15 CST
+Output:
+----------------------------------------------------------
+PARSE_OK
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"test_parser" end time: Nov 29 19:15 CST
+"test_parser" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/5 Testing: test_transform
+3/5 Test: test_transform
+Command: "/data2/jflin/CS2612-BigWork/build-new/test_transform"
+Directory: /data2/jflin/CS2612-BigWork/build-new
+"test_transform" start time: Nov 29 19:15 CST
+Output:
+----------------------------------------------------------
+EXPAND_OK
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"test_transform" end time: Nov 29 19:15 CST
+"test_transform" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/5 Testing: test_polarity
+4/5 Test: test_polarity
+Command: "/data2/jflin/CS2612-BigWork/build-new/test_polarity"
+Directory: /data2/jflin/CS2612-BigWork/build-new
+"test_polarity" start time: Nov 29 19:15 CST
+Output:
+----------------------------------------------------------
+forall x : negative
+forall y : positive
+exists z : positive
+forall a : positive
+exists b : positive
+exists c : positive
+forall d : positive
+POLARITY_OK
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"test_polarity" end time: Nov 29 19:15 CST
+"test_polarity" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/5 Testing: test_errors
+5/5 Test: test_errors
+Command: "/data2/jflin/CS2612-BigWork/build-new/test_errors"
+Directory: /data2/jflin/CS2612-BigWork/build-new
+"test_errors" start time: Nov 29 19:15 CST
+Output:
+----------------------------------------------------------
+ERROR_TEST_OK
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"test_errors" end time: Nov 29 19:15 CST
+"test_errors" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Nov 29 19:15 CST

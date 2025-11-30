@@ -15,6 +15,7 @@ static Term* clone_term(const Term* t){
       Term** args = NULL;
       if (n>0 && f->args){ args = (Term**)malloc(sizeof(Term*)*n); for(int i=0;i<n;i++) args[i]=clone_term(f->args[i]); }
       UFunction* nf = new_function(f&&f->name?f->name:"", n, args);
+      if (args) free(args);
       return new_term_function(nf);
     }
     default: return NULL;
@@ -26,7 +27,9 @@ static UPredicate* clone_pred(const UPredicate* p){
   int n = p->numArgs;
   Term** args = NULL;
   if (n>0 && p->args){ args = (Term**)malloc(sizeof(Term*)*n); for(int i=0;i<n;i++) args[i]=clone_term(p->args[i]); }
-  return new_predicate(p->name?p->name:"", n, args);
+  UPredicate* np = new_predicate(p->name?p->name:"", n, args);
+  if (args) free(args);
+  return np;
 }
 
 Prop* clone_prop(const Prop* prop){

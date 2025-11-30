@@ -65,9 +65,19 @@ add_executable(test_polarity
 )
 target_include_directories(test_polarity PRIVATE . src)
 
+add_executable(test_errors
+  src/test_errors.c
+  src/lexer.c
+  src/ast.c
+  src/rdparser.c
+)
+target_include_directories(test_errors PRIVATE . src)
+
 include(CTest)
 if (BUILD_TESTING)
   add_test(NAME test_ast COMMAND $<TARGET_FILE:test_ast>)
   add_test(NAME test_parser COMMAND $<TARGET_FILE:test_parser>)
   add_test(NAME test_transform COMMAND $<TARGET_FILE:test_transform>)
+  add_test(NAME test_polarity COMMAND $<TARGET_FILE:test_polarity>)
+  add_test(NAME test_errors COMMAND $<TARGET_FILE:test_errors>)
 endif()

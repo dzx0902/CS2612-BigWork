@@ -72,7 +72,7 @@ Token lexer_next(Lexer* lx) {
   if (c=='-' && lx->pos+1<lx->length && lx->input[lx->pos+1]=='>') {
     lx->pos += 2; return make(TOK_IMPLY, "->", 2);
   }
-  if (c=='<' && lx->pos+3<lx->length && lx->input[lx->pos+1]=='-' && lx->input[lx->pos+2]=='>' ) {
+  if (c=='<' && lx->pos+2<lx->length && lx->input[lx->pos+1]=='-' && lx->input[lx->pos+2]=='>' ) {
     lx->pos += 3; return make(TOK_IFF, "<->", 3);
   }
 

@@ -38,25 +38,28 @@ static TermList tlist_append(TermList l, Term* t){
 %token BP_LPAREN BP_RPAREN BP_COMMA BP_DOT
 %token BP_NOT BP_AND BP_OR BP_IMPLY BP_IFF BP_FORALL BP_EXISTS
 
-%type <prop> Formula Imply Or And Unary Quantified AtomOrParen
+%type <prop> Formula Iff Imply Or And Unary Quantified AtomOrParen
 %type <pred> Predicate
 %type <tlist> TermList
 %type <term> Term
 
-%right BP_NOT
-%left BP_AND
-%left BP_OR
-%left BP_IMPLY
 %left BP_IFF
+%left BP_IMPLY
+%left BP_OR
+%left BP_AND
+%right BP_NOT
 
 %%
 
-Formula: Imply { $$ = $1; bison_root = $$; }
+Formula: Iff { $$ = $1; bison_root = $$; }
        ;
+
+Iff: Imply { $$ = $1; }
+   | Iff BP_IFF Imply { $$ = new_prop_binop(Prop_IFF, $1, $3); }
+   ;
 
 Imply: Or { $$ = $1; }
      | Imply BP_IMPLY Or { $$ = new_prop_binop(Prop_IMPLY, $1, $3); }
-     | Imply BP_IFF Or { $$ = new_prop_binop(Prop_IFF, $1, $3); }
      ;
 
 Or: And { $$ = $1; }
@@ -80,7 +83,7 @@ AtomOrParen: Predicate { $$ = new_prop_atom($1); }
            | BP_LPAREN Formula BP_RPAREN { $$ = $2; }
            ;
 
-Predicate: BP_IDENT BP_LPAREN TermList BP_RPAREN { $$ = new_predicate($1, $3.n, $3.items); free($1); }
+Predicate: BP_IDENT BP_LPAREN TermList BP_RPAREN { $$ = new_predicate($1, $3.n, $3.items); free($1); free($3.items); }
          ;
 
 TermList: Term { TermList l = tlist_new(); $$ = tlist_append(l, $1); }
@@ -89,7 +92,7 @@ TermList: Term { TermList l = tlist_new(); $$ = tlist_append(l, $1); }
 
 Term: BP_IDENT { $$ = new_term_variable($1); free($1); }
     | BP_NUMBER { $$ = new_term_const($1); }
-    | BP_IDENT BP_LPAREN TermList BP_RPAREN { UFunction* f = new_function($1, $3.n, $3.items); $$ = new_term_function(f); free($1); }
+    | BP_IDENT BP_LPAREN TermList BP_RPAREN { UFunction* f = new_function($1, $3.n, $3.items); $$ = new_term_function(f); free($1); free($3.items); }
     ;
 
 %%
