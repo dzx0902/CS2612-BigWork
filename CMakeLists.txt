@@ -61,7 +61,9 @@ add_executable(test_polarity
   src/lexer.c
   src/ast.c
   src/rdparser.c
+  src/transform.c
   src/polarity.c
+  src/sb.c
 )
 target_include_directories(test_polarity PRIVATE . src)
 

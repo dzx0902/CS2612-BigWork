@@ -35,30 +35,53 @@ static char* read_file(const char* path){
   return buf;
 }
 
-static void collect_pol(const Prop* p, int pos, char* buf, size_t bufsize){
-  if (!p) return;
-  switch(p->type){
-    case Prop_Unop:
-      if (p->prop.Unary_prop.op==Prop_NOT) collect_pol(p->prop.Unary_prop.prop1, !pos, buf, bufsize);
-      else collect_pol(p->prop.Unary_prop.prop1, pos, buf, bufsize);
-      break;
-    case Prop_Binop:
-      if (p->prop.Binary_prop.op==Prop_IMPLY){ collect_pol(p->prop.Binary_prop.prop1, 0, buf, bufsize); collect_pol(p->prop.Binary_prop.prop2, 1, buf, bufsize); }
-      else { collect_pol(p->prop.Binary_prop.prop1, pos, buf, bufsize); collect_pol(p->prop.Binary_prop.prop2, pos, buf, bufsize); }
-      break;
-    case Prop_Quant: {
-      const char* q = p->prop.Quant_prop.op==Prop_FORALL?"forall":"exists";
-      char tmp[256];
-      int n = snprintf(tmp, sizeof(tmp), "%s %s : %s", q, p->prop.Quant_prop.Variable, pos?"positive":"negative");
-      size_t m = strlen(buf);
-      if (m>0 && m < bufsize-1) { buf[m++]=';'; buf[m]='\0'; }
-      if (m < bufsize-1) strncat(buf, tmp, bufsize-1-m);
-      collect_pol(p->prop.Quant_prop.prop1, pos, buf, bufsize);
-      break;
+static char* format_tokens(const char* line){
+  Lexer lx; lexer_init(&lx, line);
+  sb_t sb; sb_init(&sb);
+  for(;;){
+    Token t = lexer_next(&lx);
+    if (t.type==TOK_EOF){ token_free(&t); break; }
+    if (t.lexeme){ sb_append(&sb, t.lexeme); sb_append(&sb, " "); }
+    else {
+      switch(t.type){
+        case TOK_LPAREN: sb_append(&sb, "( "); break;
+        case TOK_RPAREN: sb_append(&sb, ") "); break;
+        case TOK_COMMA: sb_append(&sb, ", "); break;
+        case TOK_DOT: sb_append(&sb, ". "); break;
+        case TOK_NOT: sb_append(&sb, "! "); break;
+        case TOK_AND: sb_append(&sb, "& "); break;
+        case TOK_OR: sb_append(&sb, "| "); break;
+        case TOK_IMPLY: sb_append(&sb, "-> "); break;
+        case TOK_IFF: sb_append(&sb, "<-> "); break;
+        case TOK_FORALL: sb_append(&sb, "forall "); break;
+        case TOK_EXISTS: sb_append(&sb, "exists "); break;
+        default: sb_append(&sb, "? "); break;
+      }
     }
-    default:
-      break;
+    token_free(&t);
   }
+  if (!sb.buf){
+    char* empty = (char*)malloc(1);
+    if (empty) empty[0]='\0';
+    return empty;
+  }
+  return sb_take(&sb);
+}
+
+static void emit_json_record(FILE* stream, int lineNo, const char* input, const char* tokens,
+                             const char* ast, const char* expanded, const char* polarity,
+                             bool valid, const char* error_msg){
+  fprintf(stream,
+          "{\"line\":%d,\"input\":\"%s\",\"tokens\":\"%s\",\"ast\":\"%s\",\"expanded\":\"%s\","
+          "\"polarity\":\"%s\",\"valid\":%s,\"error\":\"%s\"}\n",
+          lineNo,
+          input ? input : "",
+          tokens ? tokens : "",
+          ast ? ast : "",
+          expanded ? expanded : "",
+          polarity ? polarity : "",
+          valid ? "true" : "false",
+          error_msg ? error_msg : "");
 }
 
 static void dump_tokens_line(const char* line){
@@ -115,7 +138,7 @@ int main(int argc, char** argv){
     lineNo++;
     if (len==0) { free(line); continue; }
     FILE* out = stdout;
-    printf("== Line %d ==\n", lineNo);
+    if (!opt_json) printf("== Line %d ==\n", lineNo);
     if (opt_tokens && !opt_json) dump_tokens_line(line);
     Prop* root = NULL;
     if (opt_bison) {
@@ -129,45 +152,41 @@ int main(int argc, char** argv){
       root = parse_formula(&ps);
     }
     if (!root) {
+      char* tok_str = (out_text || out_combined || opt_json) ? format_tokens(line) : NULL;
       if (out_text){
-        Lexer lx2; lexer_init(&lx2, line);
-        sb_t sbt; sb_init(&sbt);
-        for(;;){ Token t = lexer_next(&lx2); if (t.type==TOK_EOF){ token_free(&t); break; } if (t.lexeme){ sb_append(&sbt, t.lexeme); sb_append(&sbt, " "); } else {
-          switch(t.type){ case TOK_LPAREN: sb_append(&sbt, "( "); break; case TOK_RPAREN: sb_append(&sbt, ") "); break; case TOK_COMMA: sb_append(&sbt, ", "); break; case TOK_DOT: sb_append(&sbt, ". "); break; case TOK_NOT: sb_append(&sbt, "! "); break; case TOK_AND: sb_append(&sbt, "& "); break; case TOK_OR: sb_append(&sbt, "| "); break; case TOK_IMPLY: sb_append(&sbt, "-> "); break; case TOK_IFF: sb_append(&sbt, "<-> "); break; case TOK_FORALL: sb_append(&sbt, "forall "); break; case TOK_EXISTS: sb_append(&sbt, "exists "); break; default: sb_append(&sbt, "? "); break; }
-        } token_free(&t); }
-        char* tok_str = sb_take(&sbt);
         FILE* fp = fopen(out_text, "a");
         if (fp){
           fprintf(fp, "Line: %d\n", lineNo);
           fprintf(fp, "Input: %s\n", line);
-          fprintf(fp, "Tokens: %s\n", tok_str);
+          fprintf(fp, "Tokens: %s\n", tok_str?tok_str:"");
           fprintf(fp, "Valid: no\n");
           fprintf(fp, "Error: syntax error\n---\n");
           fclose(fp);
         }
-        free(tok_str);
       } else if (!opt_json) {
         printf("PARSE_ERROR\n");
       }
       if (out_combined){
-        Lexer lx3; lexer_init(&lx3, line);
-        sb_t sbc; sb_init(&sbc);
-        for(;;){ Token t = lexer_next(&lx3); if (t.type==TOK_EOF){ token_free(&t); break; } if (t.lexeme){ sb_append(&sbc, t.lexeme); sb_append(&sbc, " "); } else {
-          switch(t.type){ case TOK_LPAREN: sb_append(&sbc, "( "); break; case TOK_RPAREN: sb_append(&sbc, ") "); break; case TOK_COMMA: sb_append(&sbc, ", "); break; case TOK_DOT: sb_append(&sbc, ". "); break; case TOK_NOT: sb_append(&sbc, "! "); break; case TOK_AND: sb_append(&sbc, "& "); break; case TOK_OR: sb_append(&sbc, "| "); break; case TOK_IMPLY: sb_append(&sbc, "-> "); break; case TOK_IFF: sb_append(&sbc, "<-> "); break; case TOK_FORALL: sb_append(&sbc, "forall "); break; case TOK_EXISTS: sb_append(&sbc, "exists "); break; default: sb_append(&sbc, "? "); break; }
-        } token_free(&t); }
-        char* tokc = sb_take(&sbc);
         FILE* fp2 = fopen(out_combined, "a");
         if (fp2){
           fprintf(fp2, "Line: %d\n", lineNo);
           fprintf(fp2, "Input: %s\n", line);
-          fprintf(fp2, "Tokens: %s\n", tokc);
+          fprintf(fp2, "Tokens: %s\n", tok_str?tok_str:"");
           fprintf(fp2, "Valid: no\n");
           fprintf(fp2, "Error: syntax error\n");
-          fprintf(fp2, "JSON: {\"line\":%d,\"input\":\"%s\",\"tokens\":\"%s\",\"ast\":\"\",\"expanded\":\"\",\"polarity\":\"\"}\n---\n", lineNo, line, tokc);
+          fprintf(fp2, "JSON: ");
+          emit_json_record(fp2, lineNo, line, tok_str?tok_str:"", "", "", "", false, "syntax error");
+          fprintf(fp2, "---\n");
           fclose(fp2);
         }
-        free(tokc);
       }
+      if (opt_json){
+        FILE* fp = out_path ? fopen(out_path, "a") : NULL;
+        FILE* stream = fp ? fp : out;
+        emit_json_record(stream, lineNo, line, tok_str?tok_str:"", "", "", "", false, "syntax error");
+        if (fp) fclose(fp);
+      }
+      if (tok_str) free(tok_str);
       free(line);
       continue;
     }
@@ -176,79 +195,64 @@ int main(int argc, char** argv){
     Prop* expanded = expand_iff(root);
     if (opt_print_expanded && !opt_json) { print_prop(expanded); printf("\n"); }
     if (opt_print_tree && !opt_json) { printf("Expanded Tree:\n"); print_prop_tree(expanded); }
-    if (!opt_json && !out_text) analyze_polarity(expanded, true);
     if (opt_json){
       char* ast_str = format_prop(root);
       char* exp_str = format_prop(expanded);
-      Lexer lx2; lexer_init(&lx2, line);
-      sb_t sbt; sb_init(&sbt);
-      for(;;){ Token t = lexer_next(&lx2); if (t.type==TOK_EOF){ token_free(&t); break; } if (t.lexeme){ sb_append(&sbt, t.lexeme); sb_append(&sbt, " "); } else {
-        switch(t.type){ case TOK_LPAREN: sb_append(&sbt, "( "); break; case TOK_RPAREN: sb_append(&sbt, ") "); break; case TOK_COMMA: sb_append(&sbt, ", "); break; case TOK_DOT: sb_append(&sbt, ". "); break; case TOK_NOT: sb_append(&sbt, "! "); break; case TOK_AND: sb_append(&sbt, "& "); break; case TOK_OR: sb_append(&sbt, "| "); break; case TOK_IMPLY: sb_append(&sbt, "-> "); break; case TOK_IFF: sb_append(&sbt, "<-> "); break; case TOK_FORALL: sb_append(&sbt, "forall "); break; case TOK_EXISTS: sb_append(&sbt, "exists "); break; default: sb_append(&sbt, "? "); break; }
-      } token_free(&t); }
-      char* tok_str = sb_take(&sbt);
-      char pol_buf[2048]; pol_buf[0]='\0';
-      collect_pol(expanded, 1, pol_buf, sizeof(pol_buf));
+      char* tok_str = format_tokens(line);
+      char* pol_buf = format_polarity(expanded, true);
       FILE* fp = out_path ? fopen(out_path, "a") : NULL;
       FILE* stream = fp ? fp : out;
-      fprintf(stream, "{\"line\":%d,\"input\":\"%s\",\"tokens\":\"%s\",\"ast\":\"%s\",\"expanded\":\"%s\",\"polarity\":\"%s\"}\n", lineNo, line, tok_str, ast_str, exp_str, pol_buf);
+      emit_json_record(stream, lineNo, line, tok_str, ast_str, exp_str, pol_buf, true, "");
       if (fp) fclose(fp);
-      free(tok_str); free(ast_str); free(exp_str);
+      free(tok_str); free(ast_str); free(exp_str); free(pol_buf);
     } else if (out_text){
       char* ast_str = format_prop(root);
       char* exp_str = format_prop(expanded);
       char* ast_tree = format_prop_tree(root);
       char* exp_tree = format_prop_tree(expanded);
-      Lexer lx2; lexer_init(&lx2, line);
-      sb_t sbt; sb_init(&sbt);
-      for(;;){ Token t = lexer_next(&lx2); if (t.type==TOK_EOF){ token_free(&t); break; } if (t.lexeme){ sb_append(&sbt, t.lexeme); sb_append(&sbt, " "); } else {
-        switch(t.type){ case TOK_LPAREN: sb_append(&sbt, "( "); break; case TOK_RPAREN: sb_append(&sbt, ") "); break; case TOK_COMMA: sb_append(&sbt, ", "); break; case TOK_DOT: sb_append(&sbt, ". "); break; case TOK_NOT: sb_append(&sbt, "! "); break; case TOK_AND: sb_append(&sbt, "& "); break; case TOK_OR: sb_append(&sbt, "| "); break; case TOK_IMPLY: sb_append(&sbt, "-> "); break; case TOK_IFF: sb_append(&sbt, "<-> "); break; case TOK_FORALL: sb_append(&sbt, "forall "); break; case TOK_EXISTS: sb_append(&sbt, "exists "); break; default: sb_append(&sbt, "? "); break; }
-      } token_free(&t); }
-      char* tok_str = sb_take(&sbt);
-      char pol_buf[2048]; pol_buf[0]='\0';
-      collect_pol(expanded, 1, pol_buf, sizeof(pol_buf));
+      char* tok_str = format_tokens(line);
+      char* pol_buf = format_polarity(expanded, true);
       FILE* fp = fopen(out_text, "a");
       if (fp){
         fprintf(fp, "Line: %d\n", lineNo);
         fprintf(fp, "Input: %s\n", line);
-        fprintf(fp, "Tokens: %s\n", tok_str);
-        fprintf(fp, "AST: %s\n", ast_str);
-        fprintf(fp, "AST Tree:\n%s", ast_tree);
-        fprintf(fp, "Expanded: %s\n", exp_str);
-        fprintf(fp, "Expanded Tree:\n%s", exp_tree);
+        fprintf(fp, "Tokens: %s\n", tok_str?tok_str:"");
+        fprintf(fp, "AST: %s\n", ast_str?ast_str:"");
+        fprintf(fp, "AST Tree:\n%s", ast_tree?ast_tree:"");
+        fprintf(fp, "Expanded: %s\n", exp_str?exp_str:"");
+        fprintf(fp, "Expanded Tree:\n%s", exp_tree?exp_tree:"");
         fprintf(fp, "Valid: yes\n");
-        fprintf(fp, "Polarity: %s\n", pol_buf);
+        fprintf(fp, "Polarity: %s\n", pol_buf?pol_buf:"");
         fprintf(fp, "---\n");
         fclose(fp);
       }
-      free(tok_str); free(ast_str); free(exp_str); free(ast_tree); free(exp_tree);
+      free(tok_str); free(ast_str); free(exp_str); free(ast_tree); free(exp_tree); free(pol_buf);
     } else if (out_combined){
       char* ast_str = format_prop(root);
       char* exp_str = format_prop(expanded);
       char* ast_tree = format_prop_tree(root);
       char* exp_tree = format_prop_tree(expanded);
-      Lexer lx4; lexer_init(&lx4, line);
-      sb_t sbd; sb_init(&sbd);
-      for(;;){ Token t = lexer_next(&lx4); if (t.type==TOK_EOF){ token_free(&t); break; } if (t.lexeme){ sb_append(&sbd, t.lexeme); sb_append(&sbd, " "); } else {
-        switch(t.type){ case TOK_LPAREN: sb_append(&sbd, "( "); break; case TOK_RPAREN: sb_append(&sbd, ") "); break; case TOK_COMMA: sb_append(&sbd, ", "); break; case TOK_DOT: sb_append(&sbd, ". "); break; case TOK_NOT: sb_append(&sbd, "! "); break; case TOK_AND: sb_append(&sbd, "& "); break; case TOK_OR: sb_append(&sbd, "| "); break; case TOK_IMPLY: sb_append(&sbd, "-> "); break; case TOK_IFF: sb_append(&sbd, "<-> "); break; case TOK_FORALL: sb_append(&sbd, "forall "); break; case TOK_EXISTS: sb_append(&sbd, "exists "); break; default: sb_append(&sbd, "? "); break; }
-      } token_free(&t); }
-      char* tok_str = sb_take(&sbd);
-      char pol_buf[2048]; pol_buf[0]='\0';
-      collect_pol(expanded, 1, pol_buf, sizeof(pol_buf));
+      char* tok_str = format_tokens(line);
+      char* pol_buf = format_polarity(expanded, true);
       FILE* fp2 = fopen(out_combined, "a");
       if (fp2){
         fprintf(fp2, "Line: %d\n", lineNo);
         fprintf(fp2, "Input: %s\n", line);
-        fprintf(fp2, "Tokens: %s\n", tok_str);
-        fprintf(fp2, "AST: %s\n", ast_str);
-        fprintf(fp2, "AST Tree:\n%s", ast_tree);
-        fprintf(fp2, "Expanded: %s\n", exp_str);
-        fprintf(fp2, "Expanded Tree:\n%s", exp_tree);
+        fprintf(fp2, "Tokens: %s\n", tok_str?tok_str:"");
+        fprintf(fp2, "AST: %s\n", ast_str?ast_str:"");
+        fprintf(fp2, "AST Tree:\n%s", ast_tree?ast_tree:"");
+        fprintf(fp2, "Expanded: %s\n", exp_str?exp_str:"");
+        fprintf(fp2, "Expanded Tree:\n%s", exp_tree?exp_tree:"");
         fprintf(fp2, "Valid: yes\n");
-        fprintf(fp2, "Polarity: %s\n", pol_buf);
-        fprintf(fp2, "JSON: {\"line\":%d,\"input\":\"%s\",\"tokens\":\"%s\",\"ast\":\"%s\",\"expanded\":\"%s\",\"polarity\":\"%s\"}\n---\n", lineNo, line, tok_str, ast_str, exp_str, pol_buf);
+        fprintf(fp2, "Polarity: %s\n", pol_buf?pol_buf:"");
+        fprintf(fp2, "JSON: ");
+        emit_json_record(fp2, lineNo, line, tok_str?tok_str:"", ast_str?ast_str:"", exp_str?exp_str:"", pol_buf?pol_buf:"", true, "");
+        fprintf(fp2, "---\n");
         fclose(fp2);
       }
-      free(tok_str); free(ast_str); free(exp_str); free(ast_tree); free(exp_tree);
+      free(tok_str); free(ast_str); free(exp_str); free(ast_tree); free(exp_tree); free(pol_buf);
+    } else {
+      analyze_polarity(expanded, true);
     }
     free_prop(expanded);
     free_prop(root);

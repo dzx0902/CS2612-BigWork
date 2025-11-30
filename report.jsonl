@@ -1,14 +1,57 @@
-{"line":2,"input":"P(x)","tokens":"P ( x ) ","ast":"P(x)","expanded":"P(x)","polarity":""}
-{"line":3,"input":"Q(f(x))","tokens":"Q ( f ( x ) ) ","ast":"Q(f(x))","expanded":"Q(f(x))","polarity":""}
-{"line":4,"input":"R(1)","tokens":"R ( 1 ) ","ast":"R(1)","expanded":"R(1)","polarity":""}
-{"line":5,"input":"S(a,b,c)","tokens":"S ( a , b , c ) ","ast":"S(a, b, c)","expanded":"S(a, b, c)","polarity":""}
-{"line":8,"input":"P(f(x))","tokens":"P ( f ( x ) ) ","ast":"P(f(x))","expanded":"P(f(x))","polarity":""}
-{"line":10,"input":"Q(f(x), g(h(1,y)))","tokens":"Q ( f ( x ) , g ( h ( 1 , y ) ) ) ","ast":"Q(f(x), g(h(1, y)))","expanded":"Q(f(x), g(h(1, y)))","polarity":""}
-{"line":11,"input":"H(f(g(h(k(a,b,c)))), t)","tokens":"H ( f ( g ( h ( k ( a , b , c ) ) ) ) , t ) ","ast":"H(f(g(h(k(a, b, c)))), t)","expanded":"H(f(g(h(k(a, b, c)))), t)","polarity":""}
-{"line":22,"input":"P(x) -> Q(x)","tokens":"P ( x ) -> Q ( x ) ","ast":"(P(x) -> Q(x))","expanded":"(P(x) -> Q(x))","polarity":""}
-{"line":24,"input":"P(x) <-> Q(y)","tokens":"P ( x ) <-> Q ( y ) ","ast":"(P(x) <-> Q(y))","expanded":"((P(x) -> Q(y)) & (Q(y) -> P(x)))","polarity":""}
-{"line":54,"input":"P(x) -> Q(x)","tokens":"P ( x ) -> Q ( x ) ","ast":"(P(x) -> Q(x))","expanded":"(P(x) -> Q(x))","polarity":""}
-{"line":55,"input":"P(x)->Q(x)","tokens":"P ( x ) -> Q ( x ) ","ast":"(P(x) -> Q(x))","expanded":"(P(x) -> Q(x))","polarity":""}
-{"line":56,"input":"P(x)<->Q(x)","tokens":"P ( x ) <-> Q ( x ) ","ast":"(P(x) <-> Q(x))","expanded":"((P(x) -> Q(x)) & (Q(x) -> P(x)))","polarity":""}
-{"line":57,"input":"P(x) <->  Q(y)","tokens":"P ( x ) <-> Q ( y ) ","ast":"(P(x) <-> Q(y))","expanded":"((P(x) -> Q(y)) & (Q(y) -> P(x)))","polarity":""}
-{"line":58,"input":"( P ( x )  -> Q ( y ) )","tokens":"( P ( x ) -> Q ( y ) ) ","ast":"(P(x) -> Q(y))","expanded":"(P(x) -> Q(y))","polarity":""}
+{"line":2,"input":"P(x)","tokens":"P ( x ) ","ast":"P(x)","expanded":"P(x)","polarity":"","valid":true,"error":""}
+{"line":3,"input":"Q(f(x))","tokens":"Q ( f ( x ) ) ","ast":"Q(f(x))","expanded":"Q(f(x))","polarity":"","valid":true,"error":""}
+{"line":4,"input":"R(1)","tokens":"R ( 1 ) ","ast":"R(1)","expanded":"R(1)","polarity":"","valid":true,"error":""}
+{"line":5,"input":"S(a,b,c)","tokens":"S ( a , b , c ) ","ast":"S(a, b, c)","expanded":"S(a, b, c)","polarity":"","valid":true,"error":""}
+{"line":8,"input":"P(f(x))","tokens":"P ( f ( x ) ) ","ast":"P(f(x))","expanded":"P(f(x))","polarity":"","valid":true,"error":""}
+{"line":9,"input":"P(f(g(h(x))))","tokens":"P ( f ( g ( h ( x ) ) ) ) ","ast":"P(f(g(h(x))))","expanded":"P(f(g(h(x))))","polarity":"","valid":true,"error":""}
+{"line":10,"input":"Q(f(x), g(h(1,y)))","tokens":"Q ( f ( x ) , g ( h ( 1 , y ) ) ) ","ast":"Q(f(x), g(h(1, y)))","expanded":"Q(f(x), g(h(1, y)))","polarity":"","valid":true,"error":""}
+{"line":11,"input":"H(f(g(h(k(a,b,c)))), t)","tokens":"H ( f ( g ( h ( k ( a , b , c ) ) ) ) , t ) ","ast":"H(f(g(h(k(a, b, c)))), t)","expanded":"H(f(g(h(k(a, b, c)))), t)","polarity":"","valid":true,"error":""}
+{"line":14,"input":"¬P(x)","tokens":"¬ P ( x ) ","ast":"!P(x)","expanded":"!P(x)","polarity":"","valid":true,"error":""}
+{"line":15,"input":"¬¬P(x)","tokens":"¬ ¬ P ( x ) ","ast":"!!P(x)","expanded":"!!P(x)","polarity":"","valid":true,"error":""}
+{"line":16,"input":"¬(P(x) ∧ Q(x))","tokens":"¬ ( P ( x ) ∧ Q ( x ) ) ","ast":"!(P(x) & Q(x))","expanded":"!(P(x) & Q(x))","polarity":"","valid":true,"error":""}
+{"line":17,"input":"(P(x) ∧ Q(y)) ∨ R(z)","tokens":"( P ( x ) ∧ Q ( y ) ) ∨ R ( z ) ","ast":"((P(x) & Q(y)) | R(z))","expanded":"((P(x) & Q(y)) | R(z))","polarity":"","valid":true,"error":""}
+{"line":18,"input":"(¬P(x) ∨ Q(y)) ∧ (R(z) → S(t))","tokens":"( ¬ P ( x ) ∨ Q ( y ) ) ∧ ( R ( z ) → S ( t ) ) ","ast":"((!P(x) | Q(y)) & (R(z) -> S(t)))","expanded":"((!P(x) | Q(y)) & (R(z) -> S(t)))","polarity":"","valid":true,"error":""}
+{"line":21,"input":"P(x) → Q(x)","tokens":"P ( x ) → Q ( x ) ","ast":"(P(x) -> Q(x))","expanded":"(P(x) -> Q(x))","polarity":"","valid":true,"error":""}
+{"line":22,"input":"P(x) -> Q(x)","tokens":"P ( x ) -> Q ( x ) ","ast":"(P(x) -> Q(x))","expanded":"(P(x) -> Q(x))","polarity":"","valid":true,"error":""}
+{"line":23,"input":"P(x) ↔ Q(y)","tokens":"P ( x ) ↔ Q ( y ) ","ast":"(P(x) <-> Q(y))","expanded":"((P(x) -> Q(y)) & (Q(y) -> P(x)))","polarity":"","valid":true,"error":""}
+{"line":24,"input":"P(x) <-> Q(y)","tokens":"P ( x ) <-> Q ( y ) ","ast":"(P(x) <-> Q(y))","expanded":"((P(x) -> Q(y)) & (Q(y) -> P(x)))","polarity":"","valid":true,"error":""}
+{"line":25,"input":"(P(x) -> Q(y)) ↔ (R(z) -> S(z))","tokens":"( P ( x ) -> Q ( y ) ) ↔ ( R ( z ) -> S ( z ) ) ","ast":"((P(x) -> Q(y)) <-> (R(z) -> S(z)))","expanded":"(((P(x) -> Q(y)) -> (R(z) -> S(z))) & ((R(z) -> S(z)) -> (P(x) -> Q(y))))","polarity":"","valid":true,"error":""}
+{"line":26,"input":"(¬P(x)) ↔ (Q(y) ∧ R(y))","tokens":"( ¬ P ( x ) ) ↔ ( Q ( y ) ∧ R ( y ) ) ","ast":"(!P(x) <-> (Q(y) & R(y)))","expanded":"((!P(x) -> (Q(y) & R(y))) & ((Q(y) & R(y)) -> !P(x)))","polarity":"","valid":true,"error":""}
+{"line":29,"input":"∀x. P(x)","tokens":"∀ x . P ( x ) ","ast":"forall x. P(x)","expanded":"forall x. P(x)","polarity":"forall x : positive","valid":true,"error":""}
+{"line":30,"input":"∃y. Q(y)","tokens":"∃ y . Q ( y ) ","ast":"exists y. Q(y)","expanded":"exists y. Q(y)","polarity":"exists y : positive","valid":true,"error":""}
+{"line":32,"input":"(∀x. P(x)) -> (∃y. Q(y))","tokens":"( ∀ x . P ( x ) ) -> ( ∃ y . Q ( y ) ) ","ast":"(forall x. P(x) -> exists y. Q(y))","expanded":"(forall x. P(x) -> exists y. Q(y))","polarity":"forall x : negative;exists y : positive","valid":true,"error":""}
+{"line":33,"input":"¬∀x. P(x)","tokens":"¬ ∀ x . P ( x ) ","ast":"!forall x. P(x)","expanded":"!forall x. P(x)","polarity":"forall x : negative","valid":true,"error":""}
+{"line":34,"input":"∀x. (P(x) ∧ ∃y. Q(y))","tokens":"∀ x . ( P ( x ) ∧ ∃ y . Q ( y ) ) ","ast":"forall x. (P(x) & exists y. Q(y))","expanded":"forall x. (P(x) & exists y. Q(y))","polarity":"forall x : positive;exists y : positive","valid":true,"error":""}
+{"line":35,"input":"(∀x. P(x)) ↔ (∃y. Q(y))","tokens":"( ∀ x . P ( x ) ) ↔ ( ∃ y . Q ( y ) ) ","ast":"(forall x. P(x) <-> exists y. Q(y))","expanded":"((forall x. P(x) -> exists y. Q(y)) & (exists y. Q(y) -> forall x. P(x)))","polarity":"forall x : negative;exists y : positive;exists y : negative;forall x : positive","valid":true,"error":""}
+{"line":37,"input":"(∀x. P(x)) -> ((∀y. Q(y)) ∧ (∃z. R(z)))","tokens":"( ∀ x . P ( x ) ) -> ( ( ∀ y . Q ( y ) ) ∧ ( ∃ z . R ( z ) ) ) ","ast":"(forall x. P(x) -> (forall y. Q(y) & exists z. R(z)))","expanded":"(forall x. P(x) -> (forall y. Q(y) & exists z. R(z)))","polarity":"forall x : negative;forall y : positive;exists z : positive","valid":true,"error":""}
+{"line":38,"input":"((¬∀x. P(x)) -> (∃y. Q(y))) ∧ ∀z. R(z)","tokens":"( ( ¬ ∀ x . P ( x ) ) -> ( ∃ y . Q ( y ) ) ) ∧ ∀ z . R ( z ) ","ast":"((!forall x. P(x) -> exists y. Q(y)) & forall z. R(z))","expanded":"((!forall x. P(x) -> exists y. Q(y)) & forall z. R(z))","polarity":"forall x : positive;exists y : positive;forall z : positive","valid":true,"error":""}
+{"line":40,"input":"∀x. ∃y. ∀z. (P(x,y,z) -> (Q(x) ∧ ¬R(z)))","tokens":"∀ x . ∃ y . ∀ z . ( P ( x , y , z ) -> ( Q ( x ) ∧ ¬ R ( z ) ) ) ","ast":"forall x. exists y. forall z. (P(x, y, z) -> (Q(x) & !R(z)))","expanded":"forall x. exists y. forall z. (P(x, y, z) -> (Q(x) & !R(z)))","polarity":"forall x : positive;exists y : positive;forall z : positive","valid":true,"error":""}
+{"line":41,"input":"∀x. (¬P(x) ∨ ∃y. (Q(y) → ∀z. R(z)))","tokens":"∀ x . ( ¬ P ( x ) ∨ ∃ y . ( Q ( y ) → ∀ z . R ( z ) ) ) ","ast":"forall x. (!P(x) | exists y. (Q(y) -> forall z. R(z)))","expanded":"forall x. (!P(x) | exists y. (Q(y) -> forall z. R(z)))","polarity":"forall x : positive;exists y : positive;forall z : positive","valid":true,"error":""}
+{"line":44,"input":"∀x. (P(x) -> ∃y. (Q(x,y) ∧ R(f(x,y))))","tokens":"∀ x . ( P ( x ) -> ∃ y . ( Q ( x , y ) ∧ R ( f ( x , y ) ) ) ) ","ast":"forall x. (P(x) -> exists y. (Q(x, y) & R(f(x, y))))","expanded":"forall x. (P(x) -> exists y. (Q(x, y) & R(f(x, y))))","polarity":"forall x : positive;exists y : positive","valid":true,"error":""}
+{"line":45,"input":"((∀x. (P(x) -> ∃y. Q(y)))) ↔ (¬∃z. (R(z) ∧ S(z)))","tokens":"( ( ∀ x . ( P ( x ) -> ∃ y . Q ( y ) ) ) ) ↔ ( ¬ ∃ z . ( R ( z ) ∧ S ( z ) ) ) ","ast":"(forall x. (P(x) -> exists y. Q(y)) <-> !exists z. (R(z) & S(z)))","expanded":"((forall x. (P(x) -> exists y. Q(y)) -> !exists z. (R(z) & S(z))) & (!exists z. (R(z) & S(z)) -> forall x. (P(x) -> exists y. Q(y))))","polarity":"forall x : negative;exists y : negative;exists z : negative;exists z : positive;forall x : positive;exists y : positive","valid":true,"error":""}
+{"line":46,"input":"∀x. (¬(P(x) ∧ Q(x)) ∨ (∃y. (R(y) -> S(f(y)))))","tokens":"∀ x . ( ¬ ( P ( x ) ∧ Q ( x ) ) ∨ ( ∃ y . ( R ( y ) -> S ( f ( y ) ) ) ) ) ","ast":"forall x. (!(P(x) & Q(x)) | exists y. (R(y) -> S(f(y))))","expanded":"forall x. (!(P(x) & Q(x)) | exists y. (R(y) -> S(f(y))))","polarity":"forall x : positive;exists y : positive","valid":true,"error":""}
+{"line":49,"input":"∀x.P(x)","tokens":"∀ x . P ( x ) ","ast":"forall x. P(x)","expanded":"forall x. P(x)","polarity":"forall x : positive","valid":true,"error":""}
+{"line":50,"input":"∀ x . P ( x )","tokens":"∀ x . P ( x ) ","ast":"forall x. P(x)","expanded":"forall x. P(x)","polarity":"forall x : positive","valid":true,"error":""}
+{"line":51,"input":"(∀x. P(x)) -> (∀y. Q(y))","tokens":"( ∀ x . P ( x ) ) -> ( ∀ y . Q ( y ) ) ","ast":"(forall x. P(x) -> forall y. Q(y))","expanded":"(forall x. P(x) -> forall y. Q(y))","polarity":"forall x : negative;forall y : positive","valid":true,"error":""}
+{"line":52,"input":"(∀ x.  P ( x ))  -> ((∃ y.  Q ( y ))  ∧   R ( x ))","tokens":"( ∀ x . P ( x ) ) -> ( ( ∃ y . Q ( y ) ) ∧ R ( x ) ) ","ast":"(forall x. P(x) -> (exists y. Q(y) & R(x)))","expanded":"(forall x. P(x) -> (exists y. Q(y) & R(x)))","polarity":"forall x : negative;exists y : positive","valid":true,"error":""}
+{"line":54,"input":"P(x) -> Q(x)","tokens":"P ( x ) -> Q ( x ) ","ast":"(P(x) -> Q(x))","expanded":"(P(x) -> Q(x))","polarity":"","valid":true,"error":""}
+{"line":55,"input":"P(x)->Q(x)","tokens":"P ( x ) -> Q ( x ) ","ast":"(P(x) -> Q(x))","expanded":"(P(x) -> Q(x))","polarity":"","valid":true,"error":""}
+{"line":56,"input":"P(x)<->Q(x)","tokens":"P ( x ) <-> Q ( x ) ","ast":"(P(x) <-> Q(x))","expanded":"((P(x) -> Q(x)) & (Q(x) -> P(x)))","polarity":"","valid":true,"error":""}
+{"line":57,"input":"P(x) <->  Q(y)","tokens":"P ( x ) <-> Q ( y ) ","ast":"(P(x) <-> Q(y))","expanded":"((P(x) -> Q(y)) & (Q(y) -> P(x)))","polarity":"","valid":true,"error":""}
+{"line":58,"input":"( P ( x )  -> Q ( y ) )","tokens":"( P ( x ) -> Q ( y ) ) ","ast":"(P(x) -> Q(y))","expanded":"(P(x) -> Q(y))","polarity":"","valid":true,"error":""}
+{"line":61,"input":"P(x,","tokens":"P ( x , ","ast":"","expanded":"","polarity":"","valid":false,"error":"syntax error"}
+{"line":62,"input":"P(,x)","tokens":"P ( , x ) ","ast":"","expanded":"","polarity":"","valid":false,"error":"syntax error"}
+{"line":63,"input":"(∀x. P(x)","tokens":"( ∀ x . P ( x ) ","ast":"","expanded":"","polarity":"","valid":false,"error":"syntax error"}
+{"line":64,"input":"∀x P(x","tokens":"∀ x P ( x ","ast":"","expanded":"","polarity":"","valid":false,"error":"syntax error"}
+{"line":65,"input":"∀x. (P(x)","tokens":"∀ x . ( P ( x ) ","ast":"","expanded":"","polarity":"","valid":false,"error":"syntax error"}
+{"line":66,"input":"P((x))","tokens":"P ( ( x ) ) ","ast":"","expanded":"","polarity":"","valid":false,"error":"syntax error"}
+{"line":67,"input":"P(x))(","tokens":"P ( x ) ) ( ","ast":"","expanded":"","polarity":"","valid":false,"error":"syntax error"}
+{"line":68,"input":"∀.x P(x)","tokens":"∀ . x P ( x ) ","ast":"","expanded":"","polarity":"","valid":false,"error":"syntax error"}
+{"line":69,"input":"-> P(x)","tokens":"-> P ( x ) ","ast":"","expanded":"","polarity":"","valid":false,"error":"syntax error"}
+{"line":70,"input":"<P(x)","tokens":"< P ( x ) ","ast":"","expanded":"","polarity":"","valid":false,"error":"syntax error"}
+{"line":71,"input":"P())       ","tokens":"P ( ) ) ","ast":"","expanded":"","polarity":"","valid":false,"error":"syntax error"}
+{"line":72,"input":"(),        ","tokens":"( ) , ","ast":"","expanded":"","polarity":"","valid":false,"error":"syntax error"}
+{"line":73,"input":"f(,x)    ","tokens":"f ( , x ) ","ast":"","expanded":"","polarity":"","valid":false,"error":"syntax error"}
+{"line":74,"input":"P(x y)     ","tokens":"P ( x y ) ","ast":"","expanded":"","polarity":"","valid":false,"error":"syntax error"}
+{"line":75,"input":"∀.x. P(x)   ","tokens":"∀ . x . P ( x ) ","ast":"","expanded":"","polarity":"","valid":false,"error":"syntax error"}
+{"line":76,"input":"∀x P(x)    ","tokens":"∀ x P ( x ) ","ast":"","expanded":"","polarity":"","valid":false,"error":"syntax error"}

@@ -59,9 +59,10 @@
 - `--tokens`：打印词法 token 序列（ASCII 统一呈现）
 - `--print-ast`：打印解析得到的 AST
 - `--print-expanded`：打印 IFF 展开后的 AST
-- `--json`：以 JSON 行输出每行的完整处理结果
+- `--json`：以 JSON 行输出每行的完整处理结果；字段为 `line/input/tokens/ast/expanded/polarity/valid/error`
 - `--out <file>`：与 `--json` 配合使用，追加写入到指定文件
 - `--bison`：优先使用 Bison 解析；若 Bison 不可用或解析失败会自动回退为递归下降解析
+- `--out-text`、`--out-combined`：打印友好文本/树形结构，便于直接引用到报告
 
 逐行处理输出格式：每行以 `== Line N ==` 为分隔，随后输出开启的各阶段结果与极性分析。
 
@@ -110,6 +111,11 @@ $s | ./build/Release/fol.exe --bison --tokens --print-ast --print-expanded
   - `./build/Release/fol.exe --tokens --print-ast --print-expanded < tests.txt`
 - 导出 JSONL 报告（便于实验报告引用/分析）：
   - `./build/Release/fol.exe --json --out report.jsonl < tests.txt`
+- JSON 行示例：
+  ```json
+  {"line":2,"input":"P(x) <-> Q(x)","tokens":"P ( x ) <-> Q ( x ) ","ast":"(P(x) <-> Q(x))","expanded":"((P(x) -> Q(x)) & (Q(x) -> P(x)))","polarity":"","valid":true,"error":""}
+  ```
+- 若语句解析失败也会写入 JSON（`valid:false,error:"syntax error"`），便于定位问题行
 - 查看前几条记录（PowerShell）：
   - `Get-Content -Encoding UTF8 report.jsonl | Select-Object -First 5`
 
@@ -134,120 +140,10 @@ $s | ./build/Release/fol.exe --bison --tokens --print-ast --print-expanded
 - 回退机制：若 Bison 不可用或 `yyparse` 返回错误，主程序自动回退为递归下降解析。
 
 ## 注意与限制
-- 解析错误会提示 `PARSE_ERROR` 并跳过该行；建议使用 ASCII 形式确保跨平台稳定性。
+- 常规模式下解析错误会提示 `PARSE_ERROR` 并跳过该行；在 `--json` 模式下同样会输出一条带 `valid:false` 的记录。
 - IFF 展开后结构符合 `(φ -> ψ) & (ψ -> φ)`，极性分析按根正、否定翻转、蕴含左负右正、合/析保持的规则执行。
 
 ## 许可证
 - 课程实验用途，按课程要求使用。
 
 本项目实现对一阶逻辑公式的词法分析、递归下降语法分析、抽象语法树（AST）构建、`↔` 等价展开以及量词正/负极性输出，接口结构与 `syntax.h` 对应。
-
----
-
-#### 编译与运行
-
-依赖：`flex`、`bison`、`gcc`。
-
-```bash
-make
-./fol
-```
-
-手动编译示例：
-
-```bash
-flex fol.l
-bison -d fol.y
-gcc -o fol lex.yy.c fol.tab.c ast.c analyze.c main.c -Wall
-```
-
----
-
-#### 文件结构
-
-| 文件 / 目录 | 说明 |
-|-------------|------|
-| `syntax.h`  | 抽象语法树结构定义 |
-| `fol.l`     | Flex 词法规则 |
-| `fol.y`     | Bison 语法规则，生成 AST |
-| `ast.c`     | AST 节点构造与复制、释放 |
-| `analyze.c` | 量词极性分析 |
-| `main.c`    | 程序入口，完成解析与分析 |
-| `Makefile`  | 构建脚本 |
-| `tests.txt` | 示例与边界测试用例 |
-
----
-
-#### 词法规则与 Token
-
-| Token | 形式 |
-|-------|------|
-| `IDENT` | `[A-Za-z_][A-Za-z0-9_]*`（变量、函数、谓词名） |
-| `NUMBER` | `[0-9]+` |
-| 量词 | `∀`、`∃` |
-| 逻辑符号 | `¬`/`!`/`~`，`∧`/`&`，`∨`/`|`，`->`/`→`，`<->`/`↔` |
-| 界定符 | `(` `)` `,` `.` |
-| 空白 | 忽略 |
-
-未知字符会触发解析错误。
-
----
-
-#### 语法（BNF）
-
-```
-Formula    ::= IffExpr
-IffExpr    ::= ImplyExpr | IffExpr IFF ImplyExpr
-ImplyExpr  ::= OrExpr | ImplyExpr IMPLY OrExpr
-OrExpr     ::= AndExpr | OrExpr OR AndExpr
-AndExpr    ::= UnaryExpr | AndExpr AND UnaryExpr
-UnaryExpr  ::= NOT UnaryExpr | QuantExpr | Atom
-QuantExpr  ::= FORALL IDENT DOT Formula | EXISTS IDENT DOT Formula
-Atom       ::= IDENT "(" TermList ")" | "(" Formula ")"
-TermList   ::= Term | TermList "," Term
-Term       ::= IDENT "(" TermList ")" | IDENT | NUMBER
-```
-
-优先级（低→高）：`↔` < `→` < `∨` < `∧` < `¬/量词/原子`。
-
----
-
-#### AST 映射（syntax.h）
-
-- `Term`：变量 `Term_VarName`、常量 `Term_ConstNum`、函数项 `Term_UFTerm`
-- `UFunction` / `UPredicate`：保存名称与参数数组
-- `Prop`：
-  - 二元：`Prop_AND`、`Prop_OR`、`Prop_IMPLY`、`Prop_IFF`
-  - 一元：`Prop_NOT`
-  - 量词：`Prop_FORALL`、`Prop_EXISTS`
-  - 原子：`Prop_Atom`
-
-`ast.c` 提供 `new_*` 系列构造函数、`clone_prop` 与递归 `free_prop`。
-
----
-
-#### IFF 等价展开
-
-`expand_iff` 将 `φ ↔ ψ` 转换为 `(φ → ψ) ∧ (ψ → φ)`，对子公式递归展开，避免树中残留 IFF 便于极性分析。
-
----
-
-#### 量词极性分析
-
-`analyze_polarity` 深度优先遍历 AST：
-
-- 根为正极性；`¬` 翻转极性。
-- `→`：左支翻转，右支保持；`∧/∨`：两支保持。
-- 量词继承当前极性并即时输出，如 `∀x : positive`。
-
----
-
-#### 测试
-
-`tests.txt` 覆盖原子公式、嵌套函数、合取/析取/蕴含/双条件、ASCII 与 Unicode 混用、量词极性以及错误输入（缺括号、逗号错误、缺少点号等）。可用：
-
-```bash
-./fol < tests.txt
-```
-
-或交互输入单条公式检验词法、语法与极性分析结果。

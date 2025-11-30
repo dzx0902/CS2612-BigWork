@@ -105,7 +105,8 @@ Prop* clone_prop(const Prop* prop);
 Prop* expand_iff(const Prop* prop);
 
 // Polarity analysis
-void analyze_polarity(Prop* prop, bool positive);
+void analyze_polarity(const Prop* prop, bool positive);
+char* format_polarity(const Prop* prop, bool positive);
 
 // Parser entry points (provided by Bison/Flex)
 int yyparse(void);
