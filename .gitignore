@@ -1,27 +1,40 @@
-# Build directories and artifacts
-/build/
-/build-new/
-/build-review/
+# Build directories and artifacts (any depth)
+**/build/
+**/build-*/
+**/build-review/
 **/CMakeFiles/
-/CMakeCache.txt
-/cmake_install.cmake
-/*.vcxproj*
-/*.sln
-/*.pdb
+**/CMakeCache.txt
+**/cmake_install.cmake
+**/Testing/
 
-# Bison/Flex generated files in build
-/build/parser.c
-/build/parser.h
-/build/lexer.c
+# Generator outputs
+**/*.vcxproj*
+**/*.sln
+**/*.pdb
+**/*.o
+**/*.obj
+**/*.exe
+**/*.log
 
-# Executables
-/build/**/*.exe
+# Generated parser/lexer in build trees
+**/build/**/parser.c
+**/build/**/parser.h
+**/build/**/lexer.c
 
-# Reports and generated outputs
+# Reports and generated outputs at repo root
 /report_readable.txt
 /report_all.txt
 /report.jsonl
 /out_*.txt
+
+# Keep sources and build scripts
+!/src/**
+!/syntax.h
+!/README.md
+!/CMakeLists.txt
+!/Makefile
+!/src/parser.y
+!/src/lexer.l
 
 # Temporary test files
 /bad.txt
