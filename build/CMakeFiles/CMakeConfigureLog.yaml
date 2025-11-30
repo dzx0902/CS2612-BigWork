@@ -24,7 +24,7 @@ events:
       The output was:
       0
       閫傜敤浜?.NET Framework MSBuild 鐗堟湰 17.13.19+0d9f5a35a
-      鐢熸垚鍚姩鏃堕棿涓?2025/11/24 19:43:04銆?
+      鐢熸垚鍚姩鏃堕棿涓?2025/11/30 19:30:02銆?
       
       鑺傜偣 1 涓婄殑椤圭洰鈥淔:\\2025Autumn\\CS2612\\CS2612_materials\\experiment\\bigwork\\build\\CMakeFiles\\4.0.2\\CompilerIdC\\CompilerIdC.vcxproj鈥?榛樿鐩爣)銆?
       PrepareForBuild:
@@ -53,7 +53,7 @@ events:
           0 涓鍛?
           0 涓敊璇?
       
-      宸茬敤鏃堕棿 00:00:13.40
+      宸茬敤鏃堕棿 00:00:05.99
       
       
       Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CompilerIdC.exe"
@@ -72,8 +72,8 @@ events:
     checks:
       - "Detecting C compiler ABI info"
     directories:
-      source: "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/CMakeFiles/CMakeScratch/TryCompile-ht6mdq"
-      binary: "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/CMakeFiles/CMakeScratch/TryCompile-ht6mdq"
+      source: "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/CMakeFiles/CMakeScratch/TryCompile-wz42lj"
+      binary: "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/CMakeFiles/CMakeScratch/TryCompile-wz42lj"
     cmakeVariables:
       CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS"
       CMAKE_C_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
@@ -82,40 +82,40 @@ events:
       variable: "CMAKE_C_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/CMakeFiles/CMakeScratch/TryCompile-ht6mdq'
+        Change Dir: 'F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/CMakeFiles/CMakeScratch/TryCompile-wz42lj'
         
-        Run Build Command(s): "C:/Program Files (x86)/Microsoft Visual Studio/2022/BuildTools/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_03b49.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        Run Build Command(s): "C:/Program Files (x86)/Microsoft Visual Studio/2022/BuildTools/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_f4ae4.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
         閫傜敤浜?.NET Framework MSBuild 鐗堟湰 17.13.19+0d9f5a35a
-        鐢熸垚鍚姩鏃堕棿涓?2025/11/24 19:43:21銆?
+        鐢熸垚鍚姩鏃堕棿涓?2025/11/30 19:30:10銆?
         
-        鑺傜偣 1 涓婄殑椤圭洰鈥淔:\\2025Autumn\\CS2612\\CS2612_materials\\experiment\\bigwork\\build\\CMakeFiles\\CMakeScratch\\TryCompile-ht6mdq\\cmTC_03b49.vcxproj鈥?榛樿鐩爣)銆?
+        鑺傜偣 1 涓婄殑椤圭洰鈥淔:\\2025Autumn\\CS2612\\CS2612_materials\\experiment\\bigwork\\build\\CMakeFiles\\CMakeScratch\\TryCompile-wz42lj\\cmTC_f4ae4.vcxproj鈥?榛樿鐩爣)銆?
         PrepareForBuild:
-          姝ｅ湪鍒涘缓鐩綍鈥渃mTC_03b49.dir\\Debug\\鈥濄€?
+          姝ｅ湪鍒涘缓鐩綍鈥渃mTC_f4ae4.dir\\Debug\\鈥濄€?
           宸插惎鐢ㄧ粨鏋勫寲杈撳嚭銆傜紪璇戝櫒璇婃柇鐨勬牸寮忚缃皢鍙嶆槧閿欒灞傛缁撴瀯銆傛湁鍏宠缁嗕俊鎭紝璇峰弬闃?https://aka.ms/cpp/structured-output銆?
-          姝ｅ湪鍒涘缓鐩綍鈥淔:\\2025Autumn\\CS2612\\CS2612_materials\\experiment\\bigwork\\build\\CMakeFiles\\CMakeScratch\\TryCompile-ht6mdq\\Debug\\鈥濄€?
-          姝ｅ湪鍒涘缓鐩綍鈥渃mTC_03b49.dir\\Debug\\cmTC_03b49.tlog\\鈥濄€?
+          姝ｅ湪鍒涘缓鐩綍鈥淔:\\2025Autumn\\CS2612\\CS2612_materials\\experiment\\bigwork\\build\\CMakeFiles\\CMakeScratch\\TryCompile-wz42lj\\Debug\\鈥濄€?
+          姝ｅ湪鍒涘缓鐩綍鈥渃mTC_f4ae4.dir\\Debug\\cmTC_f4ae4.tlog\\鈥濄€?
         InitializeBuildStatus:
-          姝ｅ湪鍒涘缓鈥渃mTC_03b49.dir\\Debug\\cmTC_03b49.tlog\\unsuccessfulbuild鈥濓紝鍥犱负宸叉寚瀹氣€淎lwaysCreate鈥濄€?
-          姝ｅ湪瀵光€渃mTC_03b49.dir\\Debug\\cmTC_03b49.tlog\\unsuccessfulbuild鈥濇墽琛?Touch 浠诲姟銆?
+          姝ｅ湪鍒涘缓鈥渃mTC_f4ae4.dir\\Debug\\cmTC_f4ae4.tlog\\unsuccessfulbuild鈥濓紝鍥犱负宸叉寚瀹氣€淎lwaysCreate鈥濄€?
+          姝ｅ湪瀵光€渃mTC_f4ae4.dir\\Debug\\cmTC_f4ae4.tlog\\unsuccessfulbuild鈥濇墽琛?Touch 浠诲姟銆?
         ClCompile:
-          C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.43.34808\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_03b49.dir\\Debug\\\\" /Fd"cmTC_03b49.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue "D:\\anaconda3\\Lib\\site-packages\\cmake\\data\\share\\cmake-4.0\\Modules\\CMakeCCompilerABI.c"
+          C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.43.34808\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_f4ae4.dir\\Debug\\\\" /Fd"cmTC_f4ae4.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue "D:\\anaconda3\\Lib\\site-packages\\cmake\\data\\share\\cmake-4.0\\Modules\\CMakeCCompilerABI.c"
           鐢ㄤ簬 x64 鐨?Microsoft (R) C/C++ 浼樺寲缂栬瘧鍣?19.43.34810 鐗?
           鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
-          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_03b49.dir\\Debug\\\\" /Fd"cmTC_03b49.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue "D:\\anaconda3\\Lib\\site-packages\\cmake\\data\\share\\cmake-4.0\\Modules\\CMakeCCompilerABI.c"
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_f4ae4.dir\\Debug\\\\" /Fd"cmTC_f4ae4.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue "D:\\anaconda3\\Lib\\site-packages\\cmake\\data\\share\\cmake-4.0\\Modules\\CMakeCCompilerABI.c"
           CMakeCCompilerABI.c
         Link:
-          C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.43.34808\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"F:\\2025Autumn\\CS2612\\CS2612_materials\\experiment\\bigwork\\build\\CMakeFiles\\CMakeScratch\\TryCompile-ht6mdq\\Debug\\cmTC_03b49.exe" /INCREMENTAL /ILK:"cmTC_03b49.dir\\Debug\\cmTC_03b49.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/CMakeFiles/CMakeScratch/TryCompile-ht6mdq/Debug/cmTC_03b49.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/CMakeFiles/CMakeScratch/TryCompile-ht6mdq/Debug/cmTC_03b49.lib" /MACHINE:X64  /machine:x64 cmTC_03b49.dir\\Debug\\CMakeCCompilerABI.obj
-          cmTC_03b49.vcxproj -> F:\\2025Autumn\\CS2612\\CS2612_materials\\experiment\\bigwork\\build\\CMakeFiles\\CMakeScratch\\TryCompile-ht6mdq\\Debug\\cmTC_03b49.exe
+          C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.43.34808\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"F:\\2025Autumn\\CS2612\\CS2612_materials\\experiment\\bigwork\\build\\CMakeFiles\\CMakeScratch\\TryCompile-wz42lj\\Debug\\cmTC_f4ae4.exe" /INCREMENTAL /ILK:"cmTC_f4ae4.dir\\Debug\\cmTC_f4ae4.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/CMakeFiles/CMakeScratch/TryCompile-wz42lj/Debug/cmTC_f4ae4.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/CMakeFiles/CMakeScratch/TryCompile-wz42lj/Debug/cmTC_f4ae4.lib" /MACHINE:X64  /machine:x64 cmTC_f4ae4.dir\\Debug\\CMakeCCompilerABI.obj
+          cmTC_f4ae4.vcxproj -> F:\\2025Autumn\\CS2612\\CS2612_materials\\experiment\\bigwork\\build\\CMakeFiles\\CMakeScratch\\TryCompile-wz42lj\\Debug\\cmTC_f4ae4.exe
         FinalizeBuildStatus:
-          姝ｅ湪鍒犻櫎鏂囦欢鈥渃mTC_03b49.dir\\Debug\\cmTC_03b49.tlog\\unsuccessfulbuild鈥濄€?
-          姝ｅ湪瀵光€渃mTC_03b49.dir\\Debug\\cmTC_03b49.tlog\\cmTC_03b49.lastbuildstate鈥濇墽琛?Touch 浠诲姟銆?
-        宸插畬鎴愮敓鎴愰」鐩€淔:\\2025Autumn\\CS2612\\CS2612_materials\\experiment\\bigwork\\build\\CMakeFiles\\CMakeScratch\\TryCompile-ht6mdq\\cmTC_03b49.vcxproj鈥?榛樿鐩爣)鐨勬搷浣溿€?
+          姝ｅ湪鍒犻櫎鏂囦欢鈥渃mTC_f4ae4.dir\\Debug\\cmTC_f4ae4.tlog\\unsuccessfulbuild鈥濄€?
+          姝ｅ湪瀵光€渃mTC_f4ae4.dir\\Debug\\cmTC_f4ae4.tlog\\cmTC_f4ae4.lastbuildstate鈥濇墽琛?Touch 浠诲姟銆?
+        宸插畬鎴愮敓鎴愰」鐩€淔:\\2025Autumn\\CS2612\\CS2612_materials\\experiment\\bigwork\\build\\CMakeFiles\\CMakeScratch\\TryCompile-wz42lj\\cmTC_f4ae4.vcxproj鈥?榛樿鐩爣)鐨勬搷浣溿€?
         
         宸叉垚鍔熺敓鎴愩€?
             0 涓鍛?
             0 涓敊璇?
         
-        宸茬敤鏃堕棿 00:00:04.90
+        宸茬敤鏃堕棿 00:00:04.34
         
       exitCode: 0
   -

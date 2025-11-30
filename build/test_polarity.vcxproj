@@ -328,7 +328,9 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="F:\2025Autumn\CS2612\CS2612_materials\experiment\bigwork\src\lexer.c" />
     <ClCompile Include="F:\2025Autumn\CS2612\CS2612_materials\experiment\bigwork\src\ast.c" />
     <ClCompile Include="F:\2025Autumn\CS2612\CS2612_materials\experiment\bigwork\src\rdparser.c" />
+    <ClCompile Include="F:\2025Autumn\CS2612\CS2612_materials\experiment\bigwork\src\transform.c" />
     <ClCompile Include="F:\2025Autumn\CS2612\CS2612_materials\experiment\bigwork\src\polarity.c" />
+    <ClCompile Include="F:\2025Autumn\CS2612\CS2612_materials\experiment\bigwork\src\sb.c" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -182,6 +182,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <Project>{60CA6335-D4DE-3076-91A4-5BC7D2672D97}</Project>
       <Name>test_ast</Name>
     </ProjectReference>
+    <ProjectReference Include="F:\2025Autumn\CS2612\CS2612_materials\experiment\bigwork\build\test_errors.vcxproj">
+      <Project>{6D559C43-5A99-3579-BE29-59495EF3532C}</Project>
+      <Name>test_errors</Name>
+    </ProjectReference>
     <ProjectReference Include="F:\2025Autumn\CS2612\CS2612_materials\experiment\bigwork\build\test_parser.vcxproj">
       <Project>{0C3CC873-A02C-3EE9-88FC-06D640FCFF48}</Project>
       <Name>test_parser</Name>

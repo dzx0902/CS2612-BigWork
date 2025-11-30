@@ -123,15 +123,16 @@ enum yysymbol_kind_t
   YYSYMBOL_BP_EXISTS = 15,                 /* BP_EXISTS  */
   YYSYMBOL_YYACCEPT = 16,                  /* $accept  */
   YYSYMBOL_Formula = 17,                   /* Formula  */
-  YYSYMBOL_Imply = 18,                     /* Imply  */
-  YYSYMBOL_Or = 19,                        /* Or  */
-  YYSYMBOL_And = 20,                       /* And  */
-  YYSYMBOL_Unary = 21,                     /* Unary  */
-  YYSYMBOL_Quantified = 22,                /* Quantified  */
-  YYSYMBOL_AtomOrParen = 23,               /* AtomOrParen  */
-  YYSYMBOL_Predicate = 24,                 /* Predicate  */
-  YYSYMBOL_TermList = 25,                  /* TermList  */
-  YYSYMBOL_Term = 26                       /* Term  */
+  YYSYMBOL_Iff = 18,                       /* Iff  */
+  YYSYMBOL_Imply = 19,                     /* Imply  */
+  YYSYMBOL_Or = 20,                        /* Or  */
+  YYSYMBOL_And = 21,                       /* And  */
+  YYSYMBOL_Unary = 22,                     /* Unary  */
+  YYSYMBOL_Quantified = 23,                /* Quantified  */
+  YYSYMBOL_AtomOrParen = 24,               /* AtomOrParen  */
+  YYSYMBOL_Predicate = 25,                 /* Predicate  */
+  YYSYMBOL_TermList = 26,                  /* TermList  */
+  YYSYMBOL_Term = 27                       /* Term  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -149,7 +150,7 @@ static TermList tlist_append(TermList l, Term* t){
   return l;
 }
 
-#line 153 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/parser.c"
+#line 154 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/parser.c"
 
 #ifdef short
 # undef short
@@ -470,18 +471,18 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  19
+#define YYFINAL  20
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   39
+#define YYLAST   38
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  16
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  11
+#define YYNNTS  12
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  22
+#define YYNRULES  23
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  43
+#define YYNSTATES  44
 
 /* YYMAXUTOK -- Last valid token kind.  */
 #define YYMAXUTOK   270
@@ -532,9 +533,9 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    54,    54,    57,    58,    59,    62,    63,    66,    67,
-      70,    71,    72,    75,    76,    79,    80,    83,    86,    87,
-      90,    91,    92
+       0,    54,    54,    57,    58,    61,    62,    65,    66,    69,
+      70,    73,    74,    75,    78,    79,    82,    83,    86,    89,
+      90,    93,    94,    95
 };
 #endif
 
@@ -553,7 +554,7 @@ static const char *const yytname[] =
   "\"end of file\"", "error", "\"invalid token\"", "BP_IDENT",
   "BP_NUMBER", "BP_LPAREN", "BP_RPAREN", "BP_COMMA", "BP_DOT", "BP_NOT",
   "BP_AND", "BP_OR", "BP_IMPLY", "BP_IFF", "BP_FORALL", "BP_EXISTS",
-  "$accept", "Formula", "Imply", "Or", "And", "Unary", "Quantified",
+  "$accept", "Formula", "Iff", "Imply", "Or", "And", "Unary", "Quantified",
   "AtomOrParen", "Predicate", "TermList", "Term", YY_NULLPTR
 };
 
@@ -564,7 +565,7 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
-#define YYPACT_NINF (-7)
+#define YYPACT_NINF (-12)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -578,11 +579,11 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-       0,    -4,     0,     0,     1,     5,    18,    -6,     8,    11,
-      -7,    -7,    -7,    -7,     7,    14,    -7,    17,    21,    -7,
-       0,     0,     0,     0,    25,    -7,     6,    -7,    -7,     0,
-       0,    -7,    -7,    -7,    -7,     7,    -7,     7,    -7,    -7,
-      10,    -7,    -7
+       0,    -4,     0,     0,     1,     5,    16,     7,     9,     8,
+      12,   -12,   -12,   -12,   -12,     3,    11,   -12,    10,    17,
+     -12,     0,     0,     0,     0,    19,   -12,     4,   -12,   -12,
+       0,     0,     9,     8,    12,   -12,     3,   -12,     3,   -12,
+     -12,     6,   -12,   -12
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -590,25 +591,25 @@ static const yytype_int8 yypact[] =
    means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       0,     0,     0,     0,     0,     0,     0,     2,     3,     6,
-       8,    11,    12,    15,     0,     0,    10,     0,     0,     1,
-       0,     0,     0,     0,    20,    21,     0,    18,    16,     0,
-       0,     4,     5,     7,     9,     0,    17,     0,    13,    14,
-       0,    19,    22
+       0,     0,     0,     0,     0,     0,     0,     2,     3,     5,
+       7,     9,    12,    13,    16,     0,     0,    11,     0,     0,
+       1,     0,     0,     0,     0,    21,    22,     0,    19,    17,
+       0,     0,     4,     6,     8,    10,     0,    18,     0,    14,
+      15,     0,    20,    23
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-      -7,    -2,    -7,     3,     4,    -1,    -7,    -7,    -7,    -3,
-       2
+     -12,    -2,   -12,    13,    14,    15,    -1,   -12,   -12,   -12,
+     -10,   -11
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-       0,     6,     7,     8,     9,    10,    11,    12,    13,    26,
-      27
+       0,     6,     7,     8,     9,    10,    11,    12,    13,    14,
+      27,    28
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -616,18 +617,18 @@ static const yytype_int8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-      15,    14,    16,     1,    17,     2,    20,    21,    18,     3,
-      24,    25,    36,    37,     4,     5,    42,    37,    19,    22,
-      28,    23,    34,    31,    32,    29,    33,    38,    39,    30,
-      35,     0,    40,     0,     0,     0,     0,     0,     0,    41
+      16,    15,    17,     1,    18,     2,    25,    26,    19,     3,
+      37,    38,    43,    38,     4,     5,    20,    29,    30,    23,
+      21,    22,    24,    35,    36,    31,    41,    42,    39,    40,
+       0,     0,     0,     0,    32,     0,    33,     0,    34
 };
 
 static const yytype_int8 yycheck[] =
 {
-       2,     5,     3,     3,     3,     5,    12,    13,     3,     9,
-       3,     4,     6,     7,    14,    15,     6,     7,     0,    11,
-       6,    10,    23,    20,    21,     8,    22,    29,    30,     8,
-       5,    -1,    35,    -1,    -1,    -1,    -1,    -1,    -1,    37
+       2,     5,     3,     3,     3,     5,     3,     4,     3,     9,
+       6,     7,     6,     7,    14,    15,     0,     6,     8,    11,
+      13,    12,    10,    24,     5,     8,    36,    38,    30,    31,
+      -1,    -1,    -1,    -1,    21,    -1,    22,    -1,    23
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
@@ -635,26 +636,26 @@ static const yytype_int8 yycheck[] =
 static const yytype_int8 yystos[] =
 {
        0,     3,     5,     9,    14,    15,    17,    18,    19,    20,
-      21,    22,    23,    24,     5,    17,    21,     3,     3,     0,
-      12,    13,    11,    10,     3,     4,    25,    26,     6,     8,
-       8,    19,    19,    20,    21,     5,     6,     7,    17,    17,
-      25,    26,     6
+      21,    22,    23,    24,    25,     5,    17,    22,     3,     3,
+       0,    13,    12,    11,    10,     3,     4,    26,    27,     6,
+       8,     8,    19,    20,    21,    22,     5,     6,     7,    17,
+      17,    26,    27,     6
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    16,    17,    18,    18,    18,    19,    19,    20,    20,
-      21,    21,    21,    22,    22,    23,    23,    24,    25,    25,
-      26,    26,    26
+       0,    16,    17,    18,    18,    19,    19,    20,    20,    21,
+      21,    22,    22,    22,    23,    23,    24,    24,    25,    26,
+      26,    27,    27,    27
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr2[] =
 {
-       0,     2,     1,     1,     3,     3,     1,     3,     1,     3,
-       2,     1,     1,     4,     4,     1,     3,     4,     1,     3,
-       1,     1,     4
+       0,     2,     1,     1,     3,     1,     3,     1,     3,     1,
+       3,     2,     1,     1,     4,     4,     1,     3,     4,     1,
+       3,     1,     1,     4
 };
 
 
@@ -1117,134 +1118,140 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-  case 2: /* Formula: Imply  */
+  case 2: /* Formula: Iff  */
 #line 54 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/src/parser.y"
-               { (yyval.prop) = (yyvsp[0].prop); bison_root = (yyval.prop); }
-#line 1124 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/parser.c"
+             { (yyval.prop) = (yyvsp[0].prop); bison_root = (yyval.prop); }
+#line 1125 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/parser.c"
     break;
 
-  case 3: /* Imply: Or  */
+  case 3: /* Iff: Imply  */
 #line 57 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/src/parser.y"
-          { (yyval.prop) = (yyvsp[0].prop); }
-#line 1130 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/parser.c"
-    break;
-
-  case 4: /* Imply: Imply BP_IMPLY Or  */
-#line 58 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/src/parser.y"
-                         { (yyval.prop) = new_prop_binop(Prop_IMPLY, (yyvsp[-2].prop), (yyvsp[0].prop)); }
-#line 1136 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/parser.c"
-    break;
-
-  case 5: /* Imply: Imply BP_IFF Or  */
-#line 59 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/src/parser.y"
-                       { (yyval.prop) = new_prop_binop(Prop_IFF, (yyvsp[-2].prop), (yyvsp[0].prop)); }
-#line 1142 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/parser.c"
-    break;
-
-  case 6: /* Or: And  */
-#line 62 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/src/parser.y"
-        { (yyval.prop) = (yyvsp[0].prop); }
-#line 1148 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/parser.c"
-    break;
-
-  case 7: /* Or: Or BP_OR And  */
-#line 63 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/src/parser.y"
-                 { (yyval.prop) = new_prop_binop(Prop_OR, (yyvsp[-2].prop), (yyvsp[0].prop)); }
-#line 1154 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/parser.c"
-    break;
-
-  case 8: /* And: Unary  */
-#line 66 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/src/parser.y"
            { (yyval.prop) = (yyvsp[0].prop); }
-#line 1160 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/parser.c"
+#line 1131 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/parser.c"
     break;
 
-  case 9: /* And: And BP_AND Unary  */
-#line 67 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/src/parser.y"
-                      { (yyval.prop) = new_prop_binop(Prop_AND, (yyvsp[-2].prop), (yyvsp[0].prop)); }
-#line 1166 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/parser.c"
+  case 4: /* Iff: Iff BP_IFF Imply  */
+#line 58 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/src/parser.y"
+                      { (yyval.prop) = new_prop_binop(Prop_IFF, (yyvsp[-2].prop), (yyvsp[0].prop)); }
+#line 1137 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/parser.c"
     break;
 
-  case 10: /* Unary: BP_NOT Unary  */
+  case 5: /* Imply: Or  */
+#line 61 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/src/parser.y"
+          { (yyval.prop) = (yyvsp[0].prop); }
+#line 1143 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/parser.c"
+    break;
+
+  case 6: /* Imply: Imply BP_IMPLY Or  */
+#line 62 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/src/parser.y"
+                         { (yyval.prop) = new_prop_binop(Prop_IMPLY, (yyvsp[-2].prop), (yyvsp[0].prop)); }
+#line 1149 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/parser.c"
+    break;
+
+  case 7: /* Or: And  */
+#line 65 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/src/parser.y"
+        { (yyval.prop) = (yyvsp[0].prop); }
+#line 1155 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/parser.c"
+    break;
+
+  case 8: /* Or: Or BP_OR And  */
+#line 66 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/src/parser.y"
+                 { (yyval.prop) = new_prop_binop(Prop_OR, (yyvsp[-2].prop), (yyvsp[0].prop)); }
+#line 1161 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/parser.c"
+    break;
+
+  case 9: /* And: Unary  */
+#line 69 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/src/parser.y"
+           { (yyval.prop) = (yyvsp[0].prop); }
+#line 1167 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/parser.c"
+    break;
+
+  case 10: /* And: And BP_AND Unary  */
 #line 70 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/src/parser.y"
+                      { (yyval.prop) = new_prop_binop(Prop_AND, (yyvsp[-2].prop), (yyvsp[0].prop)); }
+#line 1173 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/parser.c"
+    break;
+
+  case 11: /* Unary: BP_NOT Unary  */
+#line 73 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/src/parser.y"
                     { (yyval.prop) = new_prop_unop(Prop_NOT, (yyvsp[0].prop)); }
-#line 1172 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/parser.c"
+#line 1179 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/parser.c"
     break;
 
-  case 11: /* Unary: Quantified  */
-#line 71 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/src/parser.y"
+  case 12: /* Unary: Quantified  */
+#line 74 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/src/parser.y"
                   { (yyval.prop) = (yyvsp[0].prop); }
-#line 1178 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/parser.c"
+#line 1185 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/parser.c"
     break;
 
-  case 12: /* Unary: AtomOrParen  */
-#line 72 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/src/parser.y"
-                   { (yyval.prop) = (yyvsp[0].prop); }
-#line 1184 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/parser.c"
-    break;
-
-  case 13: /* Quantified: BP_FORALL BP_IDENT BP_DOT Formula  */
+  case 13: /* Unary: AtomOrParen  */
 #line 75 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/src/parser.y"
+                   { (yyval.prop) = (yyvsp[0].prop); }
+#line 1191 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/parser.c"
+    break;
+
+  case 14: /* Quantified: BP_FORALL BP_IDENT BP_DOT Formula  */
+#line 78 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/src/parser.y"
                                               { (yyval.prop) = new_prop_quant(Prop_FORALL, (yyvsp[-2].str), (yyvsp[0].prop)); free((yyvsp[-2].str)); }
-#line 1190 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/parser.c"
+#line 1197 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/parser.c"
     break;
 
-  case 14: /* Quantified: BP_EXISTS BP_IDENT BP_DOT Formula  */
-#line 76 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/src/parser.y"
-                                              { (yyval.prop) = new_prop_quant(Prop_EXISTS, (yyvsp[-2].str), (yyvsp[0].prop)); free((yyvsp[-2].str)); }
-#line 1196 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/parser.c"
-    break;
-
-  case 15: /* AtomOrParen: Predicate  */
+  case 15: /* Quantified: BP_EXISTS BP_IDENT BP_DOT Formula  */
 #line 79 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/src/parser.y"
+                                              { (yyval.prop) = new_prop_quant(Prop_EXISTS, (yyvsp[-2].str), (yyvsp[0].prop)); free((yyvsp[-2].str)); }
+#line 1203 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/parser.c"
+    break;
+
+  case 16: /* AtomOrParen: Predicate  */
+#line 82 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/src/parser.y"
                        { (yyval.prop) = new_prop_atom((yyvsp[0].pred)); }
-#line 1202 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/parser.c"
+#line 1209 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/parser.c"
     break;
 
-  case 16: /* AtomOrParen: BP_LPAREN Formula BP_RPAREN  */
-#line 80 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/src/parser.y"
-                                         { (yyval.prop) = (yyvsp[-1].prop); }
-#line 1208 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/parser.c"
-    break;
-
-  case 17: /* Predicate: BP_IDENT BP_LPAREN TermList BP_RPAREN  */
+  case 17: /* AtomOrParen: BP_LPAREN Formula BP_RPAREN  */
 #line 83 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/src/parser.y"
-                                                 { (yyval.pred) = new_predicate((yyvsp[-3].str), (yyvsp[-1].tlist).n, (yyvsp[-1].tlist).items); free((yyvsp[-3].str)); }
-#line 1214 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/parser.c"
+                                         { (yyval.prop) = (yyvsp[-1].prop); }
+#line 1215 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/parser.c"
     break;
 
-  case 18: /* TermList: Term  */
+  case 18: /* Predicate: BP_IDENT BP_LPAREN TermList BP_RPAREN  */
 #line 86 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/src/parser.y"
+                                                 { (yyval.pred) = new_predicate((yyvsp[-3].str), (yyvsp[-1].tlist).n, (yyvsp[-1].tlist).items); free((yyvsp[-3].str)); free((yyvsp[-1].tlist).items); }
+#line 1221 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/parser.c"
+    break;
+
+  case 19: /* TermList: Term  */
+#line 89 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/src/parser.y"
                { TermList l = tlist_new(); (yyval.tlist) = tlist_append(l, (yyvsp[0].term)); }
-#line 1220 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/parser.c"
+#line 1227 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/parser.c"
     break;
 
-  case 19: /* TermList: TermList BP_COMMA Term  */
-#line 87 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/src/parser.y"
-                                 { (yyval.tlist) = tlist_append((yyvsp[-2].tlist), (yyvsp[0].term)); }
-#line 1226 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/parser.c"
-    break;
-
-  case 20: /* Term: BP_IDENT  */
+  case 20: /* TermList: TermList BP_COMMA Term  */
 #line 90 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/src/parser.y"
+                                 { (yyval.tlist) = tlist_append((yyvsp[-2].tlist), (yyvsp[0].term)); }
+#line 1233 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/parser.c"
+    break;
+
+  case 21: /* Term: BP_IDENT  */
+#line 93 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/src/parser.y"
                { (yyval.term) = new_term_variable((yyvsp[0].str)); free((yyvsp[0].str)); }
-#line 1232 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/parser.c"
+#line 1239 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/parser.c"
     break;
 
-  case 21: /* Term: BP_NUMBER  */
-#line 91 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/src/parser.y"
+  case 22: /* Term: BP_NUMBER  */
+#line 94 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/src/parser.y"
                 { (yyval.term) = new_term_const((yyvsp[0].num)); }
-#line 1238 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/parser.c"
+#line 1245 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/parser.c"
     break;
 
-  case 22: /* Term: BP_IDENT BP_LPAREN TermList BP_RPAREN  */
-#line 92 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/src/parser.y"
-                                            { UFunction* f = new_function((yyvsp[-3].str), (yyvsp[-1].tlist).n, (yyvsp[-1].tlist).items); (yyval.term) = new_term_function(f); free((yyvsp[-3].str)); }
-#line 1244 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/parser.c"
+  case 23: /* Term: BP_IDENT BP_LPAREN TermList BP_RPAREN  */
+#line 95 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/src/parser.y"
+                                            { UFunction* f = new_function((yyvsp[-3].str), (yyvsp[-1].tlist).n, (yyvsp[-1].tlist).items); (yyval.term) = new_term_function(f); free((yyvsp[-3].str)); free((yyvsp[-1].tlist).items); }
+#line 1251 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/parser.c"
     break;
 
 
-#line 1248 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/parser.c"
+#line 1255 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/build/parser.c"
 
       default: break;
     }
@@ -1437,7 +1444,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 95 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/src/parser.y"
+#line 98 "F:/2025Autumn/CS2612/CS2612_materials/experiment/bigwork/src/parser.y"
 
 
 void yyerror(const char* s){ (void)s; }

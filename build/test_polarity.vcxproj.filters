@@ -13,7 +13,13 @@
     <ClCompile Include="F:\2025Autumn\CS2612\CS2612_materials\experiment\bigwork\src\rdparser.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="F:\2025Autumn\CS2612\CS2612_materials\experiment\bigwork\src\transform.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="F:\2025Autumn\CS2612\CS2612_materials\experiment\bigwork\src\polarity.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\2025Autumn\CS2612\CS2612_materials\experiment\bigwork\src\sb.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

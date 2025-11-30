@@ -1,1 +1,27 @@
-.sii/
+# Build directories and artifacts
+/build/
+/build-new/
+/build-review/
+**/CMakeFiles/
+/CMakeCache.txt
+/cmake_install.cmake
+/*.vcxproj*
+/*.sln
+/*.pdb
+
+# Bison/Flex generated files in build
+/build/parser.c
+/build/parser.h
+/build/lexer.c
+
+# Executables
+/build/**/*.exe
+
+# Reports and generated outputs
+/report_readable.txt
+/report_all.txt
+/report.jsonl
+/out_*.txt
+
+# Temporary test files
+/bad.txt

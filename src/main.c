@@ -86,8 +86,7 @@ static void dump_tokens_line(const char* line){
 }
 
 int main(int argc, char** argv){
-  int opt_tokens = 0, opt_print_ast = 0, opt_print_expanded = 0, opt_json = 0, opt_bison = 0, opt_print_tree = 0;
-  const char* out_path = NULL;
+  int opt_tokens = 0, opt_print_ast = 0, opt_print_expanded = 0, opt_bison = 0, opt_print_tree = 0;
   const char* out_text = NULL;
   const char* in_file = NULL;
   const char* out_combined = NULL;
@@ -95,8 +94,6 @@ int main(int argc, char** argv){
     if (strcmp(argv[i],"--tokens")==0) opt_tokens=1;
     else if (strcmp(argv[i],"--print-ast")==0) opt_print_ast=1;
     else if (strcmp(argv[i],"--print-expanded")==0) opt_print_expanded=1;
-    else if (strcmp(argv[i],"--json")==0) opt_json=1;
-    else if (strcmp(argv[i],"--out")==0 && i+1<argc) { out_path = argv[++i]; }
     else if (strcmp(argv[i],"--bison")==0) opt_bison=1;
     else if (strcmp(argv[i],"--print-tree")==0) opt_print_tree=1;
     else if (strcmp(argv[i],"--in-file")==0 && i+1<argc) { in_file = argv[++i]; }
@@ -116,7 +113,7 @@ int main(int argc, char** argv){
     if (len==0) { free(line); continue; }
     FILE* out = stdout;
     printf("== Line %d ==\n", lineNo);
-    if (opt_tokens && !opt_json) dump_tokens_line(line);
+    if (opt_tokens) dump_tokens_line(line);
     Prop* root = NULL;
     if (opt_bison) {
       root = parse_formula_bison(line);
@@ -146,7 +143,7 @@ int main(int argc, char** argv){
           fclose(fp);
         }
         free(tok_str);
-      } else if (!opt_json) {
+      } else {
         printf("PARSE_ERROR\n");
       }
       if (out_combined){
@@ -163,7 +160,7 @@ int main(int argc, char** argv){
           fprintf(fp2, "Tokens: %s\n", tokc);
           fprintf(fp2, "Valid: no\n");
           fprintf(fp2, "Error: syntax error\n");
-          fprintf(fp2, "JSON: {\"line\":%d,\"input\":\"%s\",\"tokens\":\"%s\",\"ast\":\"\",\"expanded\":\"\",\"polarity\":\"\"}\n---\n", lineNo, line, tokc);
+          fprintf(fp2, "---\n");
           fclose(fp2);
         }
         free(tokc);
@@ -171,29 +168,11 @@ int main(int argc, char** argv){
       free(line);
       continue;
     }
-    if (opt_print_ast && !opt_json) { print_prop(root); printf("\n"); }
-    if (opt_print_tree && !opt_json) { printf("AST Tree:\n"); print_prop_tree(root); }
+    if (opt_print_ast) { print_prop(root); printf("\n"); }
+    if (opt_print_tree) { printf("AST Tree:\n"); print_prop_tree(root); }
     Prop* expanded = expand_iff(root);
-    if (opt_print_expanded && !opt_json) { print_prop(expanded); printf("\n"); }
-    if (opt_print_tree && !opt_json) { printf("Expanded Tree:\n"); print_prop_tree(expanded); }
-    if (!opt_json && !out_text) analyze_polarity(expanded, true);
-    if (opt_json){
-      char* ast_str = format_prop(root);
-      char* exp_str = format_prop(expanded);
-      Lexer lx2; lexer_init(&lx2, line);
-      sb_t sbt; sb_init(&sbt);
-      for(;;){ Token t = lexer_next(&lx2); if (t.type==TOK_EOF){ token_free(&t); break; } if (t.lexeme){ sb_append(&sbt, t.lexeme); sb_append(&sbt, " "); } else {
-        switch(t.type){ case TOK_LPAREN: sb_append(&sbt, "( "); break; case TOK_RPAREN: sb_append(&sbt, ") "); break; case TOK_COMMA: sb_append(&sbt, ", "); break; case TOK_DOT: sb_append(&sbt, ". "); break; case TOK_NOT: sb_append(&sbt, "! "); break; case TOK_AND: sb_append(&sbt, "& "); break; case TOK_OR: sb_append(&sbt, "| "); break; case TOK_IMPLY: sb_append(&sbt, "-> "); break; case TOK_IFF: sb_append(&sbt, "<-> "); break; case TOK_FORALL: sb_append(&sbt, "forall "); break; case TOK_EXISTS: sb_append(&sbt, "exists "); break; default: sb_append(&sbt, "? "); break; }
-      } token_free(&t); }
-      char* tok_str = sb_take(&sbt);
-      char pol_buf[2048]; pol_buf[0]='\0';
-      collect_pol(expanded, 1, pol_buf, sizeof(pol_buf));
-      FILE* fp = out_path ? fopen(out_path, "a") : NULL;
-      FILE* stream = fp ? fp : out;
-      fprintf(stream, "{\"line\":%d,\"input\":\"%s\",\"tokens\":\"%s\",\"ast\":\"%s\",\"expanded\":\"%s\",\"polarity\":\"%s\"}\n", lineNo, line, tok_str, ast_str, exp_str, pol_buf);
-      if (fp) fclose(fp);
-      free(tok_str); free(ast_str); free(exp_str);
-    } else if (out_text){
+    if (!out_text && !out_combined) analyze_polarity(expanded, true);
+    if (out_text){
       char* ast_str = format_prop(root);
       char* exp_str = format_prop(expanded);
       char* ast_tree = format_prop_tree(root);
@@ -245,7 +224,7 @@ int main(int argc, char** argv){
         fprintf(fp2, "Expanded Tree:\n%s", exp_tree);
         fprintf(fp2, "Valid: yes\n");
         fprintf(fp2, "Polarity: %s\n", pol_buf);
-        fprintf(fp2, "JSON: {\"line\":%d,\"input\":\"%s\",\"tokens\":\"%s\",\"ast\":\"%s\",\"expanded\":\"%s\",\"polarity\":\"%s\"}\n---\n", lineNo, line, tok_str, ast_str, exp_str, pol_buf);
+        fprintf(fp2, "---\n");
         fclose(fp2);
       }
       free(tok_str); free(ast_str); free(exp_str); free(ast_tree); free(exp_tree);

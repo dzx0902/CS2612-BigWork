@@ -1,1 +1,0 @@
-/usr/bin/cc CMakeFiles/test_parser.dir/src/test_parser.c.o CMakeFiles/test_parser.dir/src/lexer.c.o CMakeFiles/test_parser.dir/src/ast.c.o CMakeFiles/test_parser.dir/src/rdparser.c.o -o test_parser 

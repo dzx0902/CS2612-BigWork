@@ -1,1 +1,0 @@
-/usr/bin/cc CMakeFiles/test_transform.dir/src/test_transform.c.o CMakeFiles/test_transform.dir/src/lexer.c.o CMakeFiles/test_transform.dir/src/ast.c.o CMakeFiles/test_transform.dir/src/rdparser.c.o CMakeFiles/test_transform.dir/src/transform.c.o -o test_transform 

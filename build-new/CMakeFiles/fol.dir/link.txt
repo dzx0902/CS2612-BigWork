@@ -1,1 +1,0 @@
-/usr/bin/cc CMakeFiles/fol.dir/src/main.c.o CMakeFiles/fol.dir/src/lexer.c.o CMakeFiles/fol.dir/src/ast.c.o CMakeFiles/fol.dir/src/rdparser.c.o CMakeFiles/fol.dir/src/transform.c.o CMakeFiles/fol.dir/src/polarity.c.o CMakeFiles/fol.dir/src/print.c.o CMakeFiles/fol.dir/src/sb.c.o CMakeFiles/fol.dir/src/bison_adapter.c.o -o fol 

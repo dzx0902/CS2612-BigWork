@@ -1,1 +1,0 @@
-/usr/bin/cc CMakeFiles/test_polarity.dir/src/test_polarity.c.o CMakeFiles/test_polarity.dir/src/lexer.c.o CMakeFiles/test_polarity.dir/src/ast.c.o CMakeFiles/test_polarity.dir/src/rdparser.c.o CMakeFiles/test_polarity.dir/src/polarity.c.o -o test_polarity 

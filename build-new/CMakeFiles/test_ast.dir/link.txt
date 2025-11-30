@@ -1,1 +1,0 @@
-/usr/bin/cc CMakeFiles/test_ast.dir/src/test_ast.c.o CMakeFiles/test_ast.dir/src/ast.c.o -o test_ast 
