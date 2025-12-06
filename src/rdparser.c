@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 #include "rdparser.h"
 
@@ -57,7 +58,17 @@ static Term** parse_term_list(Parser* ps, int* n){
     next(ps);
     t = parse_term(ps);
     if (!t){ fail(ps); free_term_array(arr, *n); return NULL; }
-    if (*n>=cap){ cap*=2; arr=(Term**)realloc(arr,sizeof(Term*)*cap); }
+    if (*n>=cap){ 
+      cap*=2; 
+      Term** new_arr = (Term**)realloc(arr,sizeof(Term*)*cap);
+      if (new_arr == NULL) {
+          // realloc 失败时执行的逻辑
+          fprintf(stderr, "realloc failed while expanding term array\n");
+          free_term_array(arr, *n);
+          return NULL;     // 或 return 错误码，由你决定
+      }
+      arr = new_arr;
+    };   // realloc 成功，替换指针 }
     arr[(*n)++]=t;
   }
   return arr;

@@ -11,7 +11,17 @@
 static char* read_all_stdin(void) {
   size_t cap = 4096; size_t len = 0; char* buf = (char*)malloc(cap);
   for(;;){
-    if (len + 1024 > cap) { cap *= 2; buf = (char*)realloc(buf, cap); }
+    if (len + 1024 > cap) { 
+      cap *= 2; 
+      char* new_buf = (char*)realloc(buf, cap);
+      if (new_buf == NULL) {
+          // realloc 失败时执行的逻辑
+          fprintf(stderr, "realloc failed while expanding buffer\n");
+          free(buf);       // 必须释放旧内存
+          return NULL;     // 或 return 错误码，由你决定
+      }
+      buf = new_buf;
+    };   // realloc 成功，替换指针 }
     size_t r = fread(buf + len, 1, 1024, stdin);
     len += r;
     if (r < 1024) break;

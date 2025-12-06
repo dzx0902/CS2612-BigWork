@@ -1,11 +1,19 @@
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 #include "sb.h"
 
 static void sb_grow(sb_t* s, size_t need){
   if (s->cap == 0) s->cap = 128;
   while (s->len + need + 1 > s->cap) s->cap *= 2;
-  s->buf = (char*)realloc(s->buf, s->cap);
+  char* new_buf = (char*)realloc(s->buf, s->cap);
+  if (new_buf == NULL) {
+      // realloc 失败时执行的逻辑
+      fprintf(stderr, "realloc failed while expanding string buffer\n");
+      free(s->buf);       // 必须释放旧内存
+      return;     // 或 return 错误码，由你决定
+  }
+  s->buf = new_buf;
 }
 
 void sb_init(sb_t* s){ s->buf=NULL; s->len=0; s->cap=0; }
