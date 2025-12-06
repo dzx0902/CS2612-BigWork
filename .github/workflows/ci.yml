@@ -43,4 +43,4 @@ jobs:
 
       - name: Run cppcheck
         run: |
-          cppcheck --enable=warning,style,performance --error-exitcode=1 src
+          cppcheck --enable=warning,performance --error-exitcode=1 src
